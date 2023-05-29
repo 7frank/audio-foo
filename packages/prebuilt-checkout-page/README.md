@@ -47,8 +47,7 @@ Pick a client:
 
 - [html](./client/html)
 - [react-cra](./client/react-cra) (React with create-react-app)
-- [vue-cva](./client/vue-cva)  (React with Create Vite App)
-
+- [vue-cva](./client/vue-cva) (React with Create Vite App)
 
 **Installing and cloning manually**
 
@@ -111,27 +110,28 @@ stripe prices create --unit-amount 500 --currency usd -d "product_data[name]=dem
 <summary>With Stripe Tax</summary>
   Stripe Tax lets you calculate and collect sales tax, VAT and GST with one line of code.
 
-  Before creating a price, make sure you have Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
+Before creating a price, make sure you have Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
 
-  Stripe needs to know what kind of product you are selling to calculate the taxes. For this example we will submit a tax code describing what kind of product is used: `txcd_10000000` which is 'General - Electronically Supplied Services'. You can find a list of all tax codes here: [Available tax codes](https://stripe.com/docs/tax/tax-codes). If you leave the tax code empty, Stripe will use the default one from your [Tax settings](https://dashboard.stripe.com/test/settings/tax).
+Stripe needs to know what kind of product you are selling to calculate the taxes. For this example we will submit a tax code describing what kind of product is used: `txcd_10000000` which is 'General - Electronically Supplied Services'. You can find a list of all tax codes here: [Available tax codes](https://stripe.com/docs/tax/tax-codes). If you leave the tax code empty, Stripe will use the default one from your [Tax settings](https://dashboard.stripe.com/test/settings/tax).
 
-  ```sh
-  stripe products create \
-    --name="demo" \
-    --tax-code="txcd_10000000"
-  ```
+```sh
+stripe products create \
+  --name="demo" \
+  --tax-code="txcd_10000000"
+```
 
-  From the response, copy the `id` and create a price. The tax behavior can be either `inclusive` or `exclusive`. For our example, we are using `exclusive`.
+From the response, copy the `id` and create a price. The tax behavior can be either `inclusive` or `exclusive`. For our example, we are using `exclusive`.
 
-  ```sh
-  stripe prices create \
-    --unit-amount=500 \
-    --currency=usd \
-    --tax-behavior=exclusive \
-    --product=<INSERT_ID, like prod_ABC123>
-  ```
+```sh
+stripe prices create \
+  --unit-amount=500 \
+  --currency=usd \
+  --tax-behavior=exclusive \
+  --product=<INSERT_ID, like prod_ABC123>
+```
 
-  More Information: [Docs - Update your Products and Prices](https://stripe.com/docs/tax/checkout#product-and-price-setup)
+More Information: [Docs - Update your Products and Prices](https://stripe.com/docs/tax/checkout#product-and-price-setup)
+
 </details>
 
 Which will return the json:
@@ -146,8 +146,7 @@ Which will return the json:
   "currency": "usd",
   "livemode": false,
   "lookup_key": null,
-  "metadata": {
-  },
+  "metadata": {},
   "nickname": null,
   "product": "prod_IHalmba0p05ZKD",
   "recurring": null,
@@ -173,7 +172,7 @@ folder README on how to run.
 For example, if you want to run the Node server:
 
 ```
-cd server/node 
+cd server/node
 # There's a README in this folder with instructions to run the server and how to enable Stripe Tax.
 npm install
 npm start
@@ -181,7 +180,6 @@ npm start
 
 If you're running the react client, then the sample will run in the browser at
 `localhost:3000` otherwise visit `localhost:4242`.
-
 
 **4. [Optional] Run a webhook locally**
 
