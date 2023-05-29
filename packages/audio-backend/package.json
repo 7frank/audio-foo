@@ -1,0 +1,36 @@
+{
+  "name": "file-streaming-conversion",
+  "version": "1.0.0",
+  "description": "File streaming and conversion using Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon src/server.js"
+  },
+  "keywords": [
+    "file",
+    "streaming",
+    "conversion",
+    "node.js"
+  ],
+  "author": "7frank",
+  "license": "MIT",
+  "dependencies": {
+    "better-queue": "^3.8.12",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.17.1",
+    "express-session": "^1.17.3",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "formidable": "^2.1.1",
+    "grunt": "^1.6.1",
+    "grunt-shell": "^4.0.0",
+    "multer": "^1.4.3",
+    "nodemon": "^2.0.22",
+    "passport": "^0.6.0",
+    "passport-github2": "^0.1.12",
+    "serve-index": "^1.9.1",
+    "socket.io": "^4.6.1",
+    "stripe": "^12.7.0"
+  }
+}

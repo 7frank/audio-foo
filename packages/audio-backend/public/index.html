@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File Streaming and Conversion</title>
+  </head>
+  <body>
+    <h1>File Streaming and Conversion</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input
+        type="file"
+        name="file"
+        id="fileInput"
+        accept=".mp3,.mid"
+        required
+      />
+      <button type="submit">Upload and Convert</button>
+    </form>
+
+    <audio id="audioPlayer" controls></audio>
+    <button id="downloadButton" disabled>Download</button>
+    <label> <input type="checkbox" id="autoplayCheckbox" /> Autoplay </label>
+
+    <script>
+      const form = document.getElementById("uploadForm");
+      const audioPlayer = document.getElementById("audioPlayer");
+      const downloadButton = document.getElementById("downloadButton");
+      const autoplayCheckbox = document.getElementById("autoplayCheckbox");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const fileInput = document.getElementById("fileInput");
+        const file = fileInput.files[0];
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch("/stream", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (response.ok) {
+              const reader = response.body.getReader();
+              return new ReadableStream({
+                start(controller) {
+                  function pump() {
+                    return reader.read().then(({ done, value }) => {
+                      if (done) {
+                        controller.close();
+                        return;
+                      }
+                      controller.enqueue(value);
+                      return pump();
+                    });
+                  }
+                  return pump();
+                },
+              });
+            } else {
+              console.error("Error:", response.statusText);
+            }
+          })
+          .then((stream) => {
+            const mediaSource = new MediaSource();
+            audioPlayer.src = URL.createObjectURL(mediaSource);
+
+            mediaSource.addEventListener("sourceopen", () => {
+              const sourceBuffer = mediaSource.addSourceBuffer(
+                'audio/webm; codecs="opus"'
+              );
+              const reader = stream.getReader();
+
+              function read() {
+                return reader.read().then(({ done, value }) => {
+                  if (done) {
+                    mediaSource.endOfStream();
+                    return;
+                  }
+                  sourceBuffer.appendBuffer(value);
+                  return read();
+                });
+              }
+
+              read();
+            });
+
+            const downloadURL = URL.createObjectURL(file);
+            downloadButton.addEventListener("click", () => {
+              window.open(downloadURL, "_blank");
+            });
+            downloadButton.disabled = false;
+
+            if (autoplayCheckbox.checked) {
+              fetch(downloadURL)
+                .then((response) => response.blob())
+                .then((blob) => {
+                  const audioURL = URL.createObjectURL(stream);
+                  audioPlayer.src = audioURL;
+                  audioPlayer.play();
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+
+      autoplayCheckbox.addEventListener("change", () => {
+        if (autoplayCheckbox.checked) {
+          audioPlayer.autoplay = true;
+        } else {
+          audioPlayer.autoplay = false;
+          audioPlayer.pause();
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FFmpeg Audio Filter Form</title>
+    <style>
+      .form-container {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .form-group select,
+      .form-group input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        font-size: 16px;
+      }
+      .form-group .default-option {
+        color: gray;
+      }
+      .form-group .filter-description {
+        margin-top: 5px;
+        font-size: 14px;
+        color: gray;
+      }
+      .filter-set {
+        margin-bottom: 10px;
+      }
+      .filter-set .filter-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .filter-set .filter-options {
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: gray;
+      }
+      .filter-set .remove-filter {
+        color: red;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>FFmpeg Audio Filter Form</h1>
+      <form id="filterForm">
+        <div class="form-group">
+          <label for="filter">Audio Filter:</label>
+          <select id="filter" name="filter">
+            <option value="" class="default-option">Select a filter</option>
+            <option value="anull">anull (Null Filter)</option>
+            <option value="volume" selected>volume (Volume Filter)</option>
+            <option value="atempo">atempo (Tempo Filter)</option>
+            <option value="highpass">highpass (High Pass Filter)</option>
+            <option value="lowpass">lowpass (Low Pass Filter)</option>
+          </select>
+          <p class="filter-description">
+            This is a description of the selected filter.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="filterOptions">Filter Options:</label>
+          <input
+            type="text"
+            id="filterOptions"
+            name="filterOptions"
+            placeholder="Enter filter options"
+          />
+          <p class="filter-description">
+            Provide any additional options for the selected filter.
+          </p>
+        </div>
+
+        <button type="submit">Apply Filter</button>
+      </form>
+
+      <div id="filterSets">
+        <!-- Filter Sets will be dynamically added here -->
+      </div>
+    </div>
+
+    <script>
+      const filterForm = document.getElementById("filterForm");
+      const filterSelect = document.getElementById("filter");
+      const filterDescription = document.querySelector(".filter-description");
+      const filterSetsContainer = document.getElementById("filterSets");
+
+      // Filter descriptions
+      const filterDescriptions = {
+        anull: "Null Filter: Silences the audio.",
+        volume: "Volume Filter: Adjusts the volume level of the audio.",
+        atempo: "Tempo Filter: Changes the audio tempo.",
+        highpass:
+          "High Pass Filter: Allows only high-frequency audio to pass through.",
+        lowpass:
+          "Low Pass Filter: Allows only low-frequency audio to pass through.",
+      };
+
+      // Update filter description based on selected filter
+      filterSelect.addEventListener("change", (e) => {
+        const selectedFilter = e.target.value;
+        filterDescription.textContent =
+          filterDescriptions[selectedFilter] || "";
+      });
+
+      // Handle form submission
+      filterForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // Get selected filter and options
+        const selectedFilter = filterSelect.value;
+        const filterOptions = document.getElementById("filterOptions").value;
+
+        // Create filter set element
+        const filterSet = document.createElement("div");
+        filterSet.classList.add("filter-set");
+
+        // Create filter name element
+        const filterName = document.createElement("span");
+        filterName.classList.add("filter-name");
+        filterName.textContent = selectedFilter;
+        filterSet.appendChild(filterName);
+
+        // Create filter options element
+        const filterOptionsElem = document.createElement("p");
+        filterOptionsElem.classList.add("filter-options");
+        filterOptionsElem.textContent = filterOptions;
+        filterSet.appendChild(filterOptionsElem);
+
+        // Create remove filter element
+        const removeFilter = document.createElement("span");
+        removeFilter.classList.add("remove-filter");
+        removeFilter.textContent = "Remove";
+        removeFilter.addEventListener("click", () => {
+          filterSetsContainer.removeChild(filterSet);
+        });
+        filterSet.appendChild(removeFilter);
+
+        // Add filter set to container
+        filterSetsContainer.appendChild(filterSet);
+
+        // Reset form
+        filterForm.reset();
+        filterDescription.textContent = "";
+      });
+    </script>
+  </body>
+</html>

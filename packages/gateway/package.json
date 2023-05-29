@@ -1,0 +1,16 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "redbird": "^0.10.0"
+  },
+  "devDependencies": {}
+}
