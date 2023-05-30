@@ -26,7 +26,7 @@ export type CheckoutSession = z.infer<typeof CheckoutSession>;
 /** @type {import('./$types').RequestHandler} */
 export const POST = async (event: RequestEvent) => {
 	const req = event.request;
-
+	console.log(event.url, event.request.headers);
 	const formData = CheckoutSession.parse(await req.json());
 
 	const priceId = formData.priceId;

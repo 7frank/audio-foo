@@ -7,7 +7,8 @@ export const User = z.object({
 	nodeId: z.string(),
 	displayName: z.string().nullable(),
 	username: z.string().nullable(),
-	profileUrl: z.string().nullable()
+	profileUrl: z.string().nullable(),
+	email: z.string()
 });
 
 export type User = z.infer<typeof User>;

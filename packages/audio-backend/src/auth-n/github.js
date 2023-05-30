@@ -38,12 +38,21 @@ function authenticateServer(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET) {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
         callbackURL: "/api/auth/github/callback", // Define your callback URL
+        scope: "user:email",
       },
       (accessToken, refreshToken, profile, done) => {
-        console.log("FOOOO", accessToken, refreshToken, profile);
+        // console.log("FOOOO", accessToken, refreshToken, profile);
 
-        const { id, nodeId, displayName, username, profileUrl } = profile;
-        const user = { id, nodeId, displayName, username, profileUrl };
+        const { id, nodeId, displayName, username, profileUrl, emails } =
+          profile;
+        const user = {
+          id,
+          nodeId,
+          displayName,
+          username,
+          profileUrl,
+          email: emails[0].value,
+        };
         done(null, user);
         // Handle the authentication callback
         // Retrieve user information from the profile object
