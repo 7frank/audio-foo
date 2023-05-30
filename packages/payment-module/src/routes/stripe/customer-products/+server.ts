@@ -15,10 +15,10 @@ export const GET = async (event: RequestEvent) => {
 
 	try {
 		const subscriptions = await getActiveSubscriptionsUser(email);
-		const res2 = await getBoughtProducts(email, tokenProductIds['basicToken'], '');
+		const paymentIntents = await getBoughtProducts(email, tokenProductIds['basicToken'], '');
 		getBoughtProducts;
 
-		return json({ subscriptions, res2 });
+		return json({ subscriptions, paymentIntents });
 	} catch (e: any) {
 		return json({ message: e.message }, { status: 400 });
 	}
@@ -48,11 +48,15 @@ async function getActiveSubscriptionsUser(email: string) {
 	return { hasPremium, hasBasic };
 }
 
+/**
+ *
+ * FIXME for now the only feasible way to filter or acquire a bought product is to query for the specific amount (e.g. 100 ) there must be a better way
+ */
 async function getBoughtProducts(email: string, productId: string, beforeDate: string) {
 	const customer = 'cus_NzOhN7bd0k9xoW'; // FIXME remote static customer
 	const paymentIntents = await stripe.paymentIntents.search({
 		limit: 100,
-		query: `status:'succeeded'`
+		query: `status:'succeeded' and customer:'${customer}'`
 		//customer
 	});
 
@@ -60,5 +64,13 @@ async function getBoughtProducts(email: string, productId: string, beforeDate: s
 		console.warn(
 			'potentially more paymentIntents with the same email, this could result in unexpected behavior'
 		);
-	return { paymentIntents: paymentIntents.data };
+
+	const res = paymentIntents.data.map((it) => ({
+		amount: it.amount,
+		paymentId: it.id,
+		created: it.created,
+		charge: it.latest_charge
+	}));
+
+	return res;
 }
