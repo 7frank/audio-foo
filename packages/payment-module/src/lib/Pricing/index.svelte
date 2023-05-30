@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { getContext } from 'svelte';
+	import type { CheckoutSession } from '../../routes/stripe/checkout-session/+server';
 
 	const { getStripe } = getContext('stripe');
 	const stripe = getStripe();
@@ -20,7 +21,7 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ priceId: plan.price.id })
+				body: JSON.stringify({ priceId: plan.price.id, mode:plan.mode??"subscription" } satisfies CheckoutSession)
 			});
 			const { sessionId } = await res.json();
 			stripe.redirectToCheckout({
@@ -46,7 +47,7 @@
 				</div>
 				<div class="price">
 					<span class="dollars">${penniesToDollars(plan.price.unit_amount)}</span> / {plan.price
-						.recurring.interval}
+						.recurring?.interval??"one time per ten token"}
 				</div>
 				<button on:click={() => choosePlan(plan)}>Choose</button>
 			</div>

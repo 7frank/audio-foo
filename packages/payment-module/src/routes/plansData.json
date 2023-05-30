@@ -1,61 +1,71 @@
 [
-  {
-    "product": {
-      "name": "Free Plan",
-      "description": "The bare minimum."
-    },
-    "price": {
-      "currency": "usd",
-      "unit_amount": 0,
-      "recurring": {
-        "interval": "month"
-      }
-    },
-    "includes": [
-      "A number starting at 0",
-      "A \"plus\" button",
-      "A \"minus\" button",
-      "Infinite button clicks"
-    ]
-  },
-  {
-    "product": {
-      "name": "Basic Plan",
-      "description": "The basic services.",
-      "id": "prod_NzNXW6lsQeBMVf"
-    },
-    "price": {
-      "currency": "usd",
-      "unit_amount": 1000,
-      "recurring": {
-        "interval": "month"
-      },
-      "id": "price_1NDOmGERi16pXUyO3z826ddc"
-    },
-    "includes": [
-      "All the features in the free plan.",
-      "You get to pay money for it.",
-      "Lifetime support"
-    ]
-  },
-  {
-    "product": {
-      "name": "Premium Plan",
-      "description": "Everything in the basic plan and then some.",
-      "id": "prod_NzNXMjIq68m5SH"
-    },
-    "price": {
-      "currency": "usd",
-      "unit_amount": 1500,
-      "recurring": {
-        "interval": "month"
-      },
-      "id": "price_1NDOmGERi16pXUyO9YhouVTC"
-    },
-    "includes": [
-      "All the features of the basic plan",
-      "A sense of superiority",
-      "Nothing else"
-    ]
-  }
+	{
+		"product": {
+			"name": "Free Plan",
+			"description": "The bare minimum."
+		},
+		"price": {
+			"currency": "usd",
+			"unit_amount": 0,
+			"recurring": {
+				"interval": "month"
+			}
+		},
+		"includes": [
+			"A number starting at 0",
+			"A \"plus\" button",
+			"A \"minus\" button",
+			"Infinite button clicks"
+		]
+	},
+	{
+		"product": {
+			"name": "Basic Plan",
+			"description": "The basic services.",
+			"id": "prod_NzNXW6lsQeBMVf"
+		},
+		"price": {
+			"currency": "usd",
+			"unit_amount": 1000,
+			"recurring": {
+				"interval": "month"
+			},
+			"id": "price_1NDOmGERi16pXUyO3z826ddc"
+		},
+		"includes": [
+			"All the features in the free plan.",
+			"You get to pay money for it.",
+			"Lifetime support"
+		]
+	},
+	{
+		"product": {
+			"name": "Premium Plan",
+			"description": "Everything in the basic plan and then some.",
+			"id": "prod_NzNXMjIq68m5SH"
+		},
+		"price": {
+			"currency": "usd",
+			"unit_amount": 1500,
+			"recurring": {
+				"interval": "month"
+			},
+			"id": "price_1NDOmGERi16pXUyO9YhouVTC"
+		},
+		"includes": ["All the features of the basic plan", "A sense of superiority", "Nothing else"]
+	},
+	{
+		"product": {
+			"name": "Token Plan",
+			"description": "Pay on a per use basis",
+			"id": "prod_Nz5pmL8zjZrDAP"
+		},
+		"price": {
+			"currency": "uds",
+			"unit_amount": 100,
+			"id": "price_1NDUS6ERi16pXUyO9kQ0l5oD"
+		},
+		"mode": "payment",
+		"includes": ["All the features of the basic plan", "but -per use-"]
+	}
 ]

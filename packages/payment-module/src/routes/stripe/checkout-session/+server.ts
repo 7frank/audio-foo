@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 const CheckoutSession = z.object({
 	priceId: z.string(),
+	mode: z.union([z.string('payment'), z.string('setup'), z.string('subscription')]),
 	customerId: z.string().optional() // FIXME if we allow the client to set the customerId we have to validate that the email of the sso user is the email of the customer
 });
 
@@ -17,12 +18,13 @@ export const POST = async (event: RequestEvent) => {
 	const formData = CheckoutSession.parse(await req.json());
 
 	const priceId = formData.priceId;
-	const customerId = formData.customerId;
+	const customerId = formData.customerId ?? 'cus_NzOhN7bd0k9xoW'; // FIXME remote static customer
+	const mode = formData.mode;
 
 	try {
 		const session = await stripe.checkout.sessions.create({
 			customer: customerId,
-			mode: 'subscription',
+			mode: mode,
 			payment_method_types: ['card'],
 			line_items: [
 				{
@@ -37,6 +39,6 @@ export const POST = async (event: RequestEvent) => {
 			sessionId: session.id
 		});
 	} catch (err) {
-		return error(500, err as Error);
+		return json({ error: (err as Error).message }, { status: 500 });
 	}
 };
