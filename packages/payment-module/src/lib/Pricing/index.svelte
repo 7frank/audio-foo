@@ -46,8 +46,9 @@
 					</div>
 				</div>
 				<div class="price">
-					<span class="dollars">${penniesToDollars(plan.price.unit_amount)}</span> / {plan.price
-						.recurring?.interval??"one time per ten token"}
+					<span class="dollars">${penniesToDollars(plan.price.unit_amount)}</span> {plan.price
+						.recurring?.interval? `/`+plan.price
+						.recurring?.interval:""}
 				</div>
 				<button on:click={() => choosePlan(plan)}>Choose</button>
 			</div>
