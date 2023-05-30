@@ -17,6 +17,9 @@ proxy.register("localhost/socket.io", "http://localhost:8000/socket.io");
 proxy.register("localhost/api", "http://localhost:8000/");
 
 proxy.register("localhost", "http://localhost:5100");
-proxy.register("localhost/payment", "http://localhost:5200");
+proxy.register(
+  "localhost/payment-module",
+  "http://localhost:5200/payment-module"
+);
 
 console.log("local-application-gateway running as port: ", proxy.opts.port);
