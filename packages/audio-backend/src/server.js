@@ -12,7 +12,6 @@ const io = require("socket.io")(http);
 const formidable = require("formidable");
 const { q, addQueueEventListeners } = require("./queue");
 const { router, authenticateServer } = require("./auth-n/github");
-const { stripeRouter } = require("./payment/stripe");
 
 let proxyAppPath = "/api";
 
@@ -66,7 +65,6 @@ const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
 authenticateServer(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET);
 
 app.use("/auth/github", router);
-app.use("/payment/stripe", stripeRouter);
 
 // Handle client connections
 io.on("connection", (socket) => {

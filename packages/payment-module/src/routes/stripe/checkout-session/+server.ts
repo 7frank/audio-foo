@@ -45,8 +45,8 @@ export const POST = async (event: RequestEvent) => {
 					quantity: 1
 				}
 			],
-			success_url: `http://${event.url.host}/stripe/success?sessionId={CHECKOUT_SESSION_ID}`,
-			cancel_url: `http://${event.url.host}/`,
+			success_url: `http://${event.url.host}/payment-module/stripe/success?sessionId={CHECKOUT_SESSION_ID}`,
+			cancel_url: `http://${event.url.host}/payment-module`,
 			payment_intent_data:
 				mode == 'payment' // cannot add pi meta data to subscriptions
 					? {

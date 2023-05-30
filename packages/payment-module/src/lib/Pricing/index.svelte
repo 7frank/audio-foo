@@ -16,7 +16,7 @@
 		if (plan.price.id) {
 			console.log(JSON.stringify({ priceId: plan.price.id }));
 
-			const res = await fetch('/stripe/checkout-session', {
+			const res = await fetch('/payment-module/stripe/checkout-session', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
