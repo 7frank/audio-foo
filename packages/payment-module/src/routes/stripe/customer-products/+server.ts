@@ -16,10 +16,13 @@ export const GET = async (event: RequestEvent) => {
 
 	try {
 		const subscriptions = await getActiveSubscriptionsUser(email);
-		const paymentIntents = await getBoughtProducts(email, tokenProductIds['basicToken'], '');
-		getBoughtProducts;
+		const paymentIntents = await getBoughtProducts(email);
 
-		return json({ subscriptions, paymentIntents });
+		const boughtTokenPacks = paymentIntents.filter(
+			(it) => (it.metadata as PIMetaData).productId == tokenProductIds['basicToken']
+		);
+
+		return json({ subscriptions, boughtTokenPacks });
 	} catch (e: any) {
 		return json({ message: e.message }, { status: 400 });
 	}
@@ -49,7 +52,7 @@ async function getActiveSubscriptionsUser(email: string) {
 	return { hasPremium, hasBasic };
 }
 
-async function getBoughtProducts(email: string, productId: string, beforeDate: string) {
+async function getBoughtProducts(email: string) {
 	const customer = 'cus_NzOhN7bd0k9xoW'; // FIXME remote static customer
 	const paymentIntents = await stripe.paymentIntents.search({
 		limit: 100,
@@ -63,10 +66,10 @@ async function getBoughtProducts(email: string, productId: string, beforeDate: s
 		);
 
 	const res = paymentIntents.data.map((it) => ({
-		amount: it.amount,
+		//	amount: it.amount,
 		paymentId: it.id,
 		created: it.created,
-		charge: it.latest_charge,
+		//	charge: it.latest_charge,
 		metadata: it.metadata
 		//it
 	}));

@@ -21,7 +21,7 @@
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ priceId: plan.price.id, mode:plan.mode??"subscription" } satisfies CheckoutSession)
+				body: JSON.stringify({ priceId: plan.price.id, mode:plan.mode??"subscription",productId:plan.product.id } satisfies CheckoutSession)
 			});
 			const { sessionId } = await res.json();
 			stripe.redirectToCheckout({

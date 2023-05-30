@@ -60,6 +60,31 @@ const plans = [
 			}
 		},
 		includes: ['All the features of the basic plan', 'A sense of superiority', 'Nothing else']
+	},
+
+	{
+		product: {
+			name: 'Token Plan',
+			description: 'Pay on a per use basis'
+		},
+		price: {
+			currency: 'usd',
+			unit_amount: 100
+		},
+		mode: 'payment',
+		includes: ['All the features of the basic plan', 'but -per use-']
+	},
+	{
+		product: {
+			name: '24 hours access',
+			description: 'api access without subscription for 24hours'
+		},
+		price: {
+			currency: 'usd',
+			unit_amount: 500
+		},
+		mode: 'payment',
+		includes: ['All the features of the basic plan', 'but only valid for the next 24 hours']
 	}
 ];
 

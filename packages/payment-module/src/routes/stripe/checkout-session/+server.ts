@@ -47,9 +47,12 @@ export const POST = async (event: RequestEvent) => {
 			],
 			success_url: `http://${event.url.host}/stripe/success?sessionId={CHECKOUT_SESSION_ID}`,
 			cancel_url: `http://${event.url.host}/`,
-			payment_intent_data: {
-				metadata: createPaymentIntentMetaData(mode, productId) // TODO attach more meaningful meta data to later distinguish paymentIntents
-			}
+			payment_intent_data:
+				mode == 'payment' // cannot add pi meta data to subscriptions
+					? {
+							metadata: createPaymentIntentMetaData(mode, productId) // TODO attach more meaningful meta data to later distinguish paymentIntents
+					  }
+					: undefined
 		});
 		return json({
 			sessionId: session.id
