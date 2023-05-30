@@ -62,3 +62,4 @@ to convert this into something reusable
 - an env parameter containing the payment success redirect
   - with the payment information
   - and the payment session content
+- make sure that user gets notified when they try with eur / usd (different payment types)
