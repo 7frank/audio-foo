@@ -2,6 +2,7 @@ import type { RequestEvent } from '@sveltejs/kit';
 import { json, error } from '@sveltejs/kit';
 
 import stripe from '../_stripe';
+import type { PIMetaData } from '../checkout-session/+server';
 
 // FIXME remote static stuff
 const subscriptionProductIds = { basic: 'prod_NzNXW6lsQeBMVf', premium: 'prod_NzNXMjIq68m5SH' };
@@ -48,10 +49,6 @@ async function getActiveSubscriptionsUser(email: string) {
 	return { hasPremium, hasBasic };
 }
 
-/**
- *
- * FIXME for now the only feasible way to filter or acquire a bought product is to query for the specific amount (e.g. 100 ) there must be a better way
- */
 async function getBoughtProducts(email: string, productId: string, beforeDate: string) {
 	const customer = 'cus_NzOhN7bd0k9xoW'; // FIXME remote static customer
 	const paymentIntents = await stripe.paymentIntents.search({
@@ -69,8 +66,10 @@ async function getBoughtProducts(email: string, productId: string, beforeDate: s
 		amount: it.amount,
 		paymentId: it.id,
 		created: it.created,
-		charge: it.latest_charge
+		charge: it.latest_charge,
+		metadata: it.metadata
+		//it
 	}));
 
-	return res;
+	return res.filter((it) => (it.metadata as PIMetaData).paymentMode == 'payment');
 }
