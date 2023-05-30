@@ -1,4 +1,7 @@
-<script>
+<script lang="ts">
+
+import { userStore,User } from "../components/userStore";
+
     const handleLoginWithGoogle = () => {
       window.location.href = '/auth/google';
     };
@@ -10,7 +13,7 @@
     const handleLoginWithGitHub = () => {
       window.location.href = 'api/auth/github';
     };
-
+ 
     import { onMount } from 'svelte';
   
     onMount(() => {
@@ -22,11 +25,19 @@
   
  
    
-    <div class="company-icons"> <h2>Login with:</h2>
-      <div class="company-icon" on:click={handleLoginWithGitHub}>
-        <i class="fab fa-github"></i>
-        <span class="company-name">GitHub</span>
-      </div>
+    <div class="company-icons">
+      
+    {#if $userStore}
+       <span>Logged in as {$userStore.email}</span>
+    {:else}
+    <h2>Login with:</h2>
+    <div class="company-icon" on:click={handleLoginWithGitHub}>
+      <i class="fab fa-github"></i>
+      <span class="company-name">GitHub</span>
+    </div>
+      {/if}
+    
+    
     </div>
   <style>
    
