@@ -50,3 +50,15 @@ https://sveltekit-stripe.netlify.app
 # Troubleshooting
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+# TODO
+
+to convert this into something reusable
+
+- we will need to have an env parameter
+  - containing the serialized user sso
+  - that we will use to make payments
+- an env parameter containing the host if the payment is running behind a preverse proxy
+- an env parameter containing the payment success redirect
+  - with the payment information
+  - and the payment session content
