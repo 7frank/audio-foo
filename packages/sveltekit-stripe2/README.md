@@ -1,38 +1,52 @@
-# create-svelte
+# SvelteKit Stripe Integration
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+**Update in this branch:**
 
-## Creating a project
+- code is up to date with the latest versions of sveltekit & stripe apis
+- enjoy ;-)
 
-If you're seeing this, you've probably already done this step. Congrats!
+The SvelteKit demo template comes with an awesome counter application built in. It would be better though if it was a subscription SAAS counter. That's what this repo does.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+**Check it out at https://sveltekit-stripe.netlify.app/.**
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+This demo application implements subscriptions using [SvelteKit](http://kit.svelte.dev/) and [Stripe Checkout](https://stripe.com/payments/checkout).
+[It is based on this guide.](https://stripe.com/docs/billing/subscriptions/checkout)
 
-## Developing
+## How to use.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+First you need to have an account on [Stripe](https://stripe.com/).
 
-```bash
-npm run dev
+- Clone or fork the project
+  `git clone https://github.com/srmullen/sveltekit-stripe.git`
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+- Install the dependencies
+  `cd sveltekit-stripe && npm install`
 
-## Building
+- Rename `.env.example` to `.env` and update with your Stripe public and private api keys. You can get them from the Stripe dashboard.
 
-To create a production version of your app:
+- Create products and prices on Stripe, using the script provided by this repo.
+  `npm run stripe:init`
+  This script creates the Stripe entities needed for a subscription billing model and writes them to a json file that will be loaded by a SvelteKit endpoint. You can also create the entites needed by using the Stripe dashboard, [following this section of the guide](https://stripe.com/docs/billing/subscriptions/checkout#create-business-model).
 
-```bash
-npm run build
-```
+- Start up the development server
+  `npm run dev`
 
-You can preview the production build with `npm run preview`.
+### Stripe Webhooks
+
+This repo contains a SvelteKit endpoint for Stripe Webhook events.
+
+To test the hook locally see this guide https://stripe.com/docs/webhooks/test
+
+The stripe webhook endpoint is https://localhost:3000/stripe/webhook. That is where you'll want to forward stripe events.
+
+Verify webhook signatures by adding STRIPE_WEBHOOK_SECRET to your .env file.
+
+## See the demo
+
+https://sveltekit-stripe.netlify.app
+
+(Read more about the implementation here.)[https://www.srmullen.com/articles/sveltekit-stripe-integration]
+
+# Troubleshooting
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
