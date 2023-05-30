@@ -1,23 +1,15 @@
 import type { RequestEvent, RequestHandler } from '@sveltejs/kit';
-import stripe from './_stripe';
+import { json, error } from '@sveltejs/kit';
+import stripe from '../_stripe';
 
-export const post: RequestHandler = async (event: RequestEvent) => {
-
+export const POST: RequestHandler = async (event: RequestEvent) => {
 	const req = event.request;
 
 	const formData = await req.json();
 	const priceId = formData.priceId;
 
 	if (typeof priceId !== 'string') {
-		return {
-			status: 400,
-			headers: {},
-			body: JSON.stringify({
-				error: {
-					message: 'priceId is required'
-				}
-			})
-		};
+		return error(400, new Error('priceId is required'));
 	}
 
 	try {
@@ -33,20 +25,10 @@ export const post: RequestHandler = async (event: RequestEvent) => {
 			success_url: `http://${event.url.host}/counter?sessionId={CHECKOUT_SESSION_ID}`,
 			cancel_url: `http://${event.url.host}/`
 		});
-		return {
-			status: 200,
-			headers: {},
-			body: JSON.stringify({
-				sessionId: session.id
-			})
-		};
+		return json({
+			sessionId: session.id
+		});
 	} catch (err) {
-		return {
-			status: 500,
-			headers: {},
-			body: JSON.stringify({
-				error: err
-			})
-		};
+		return error(500, err as Error);
 	}
-}
+};
