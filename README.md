@@ -18,13 +18,14 @@ Until now it slices the fist 5 seconds of a song and runs the result through the
   - payment2authz
   - canceling subscriptions => revoke AuthZ
 
-# technical overview
+# technical overview / TODO
 
 The idea is to have a modular application.
 
 - behind a reverse proxy like traefik
   - Note:https://chat.openai.com/c/78b14b35-f3d5-4770-a6cd-09988a221019
-- aa AuthN traefik middleware
+- a AuthN traefik middleware
+  - https://github.com/thomseddon/traefik-forward-auth/wiki/Provider-Setup
 - a potential stripe traefik middleware / or module (currently payment-module)
 - a mechanism that assigns or revokes privileges to sso users based on subscription
   - stripe products can contain metadata, a field roles/privileges could be added whose content would allow to set roles/privileges
