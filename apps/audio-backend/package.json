@@ -4,7 +4,7 @@
   "description": "File streaming and conversion using Node.js",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "dev": "nodemon src/server.js"
   },
   "keywords": [
     "file",
