@@ -2,26 +2,32 @@
 version: "3.9"
 services:
   traefik:
-    image: "traefik:v2.6"
+    image: traefik:v2.2
     command:
-      #- "--log.level=DEBUG"
+      - "--providers.docker"
       - "--api.insecure=true"
       - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
     ports:
       - "80:80"
+      - "8080:8080"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    labels:
-      - traefik.enable=false
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  # whoami:
-  #   image: "traefik/whoami"
-  #   container_name: "simple-service"
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
-  #     - "traefik.http.routers.whoami.entrypoints=web"
+  traefik-forward-auth:
+    image: thomseddon/traefik-forward-auth:2
+    env_file:
+      - ".env"
+    labels:
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
+      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
+
+  whoami:
+    image: containous/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      # This example uses "Selective Authentication"
+      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
 
   vite:
     build:
@@ -35,7 +41,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.vite.rule=PathPrefix(`/`)
-      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
+      - traefik.http.routers.vite.middlewares=traefik-forward-auth
 
   backend:
     build:
@@ -49,7 +55,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.backend.rule=PathPrefix(`/api`)
-      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
+      - traefik.http.routers.backend.middlewares=traefik-forward-auth
 
   payment-module:
     build:
@@ -63,16 +69,4 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.payment-module.rule=PathPrefix(`/payment-module`)
-      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
-
-  traefik-forward-auth:
-    image: thomseddon/traefik-forward-auth:2
-    environment:
-      - PROVIDERS_GOOGLE_CLIENT_ID=idddd
-      - PROVIDERS_GOOGLE_CLIENT_SECRET=seccccc
-      - SECRET=something-random-123123
-      - INSECURE_COOKIE=true # Example assumes no https, do not use in production
-    labels:
-      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
-      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
-      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
+      - traefik.http.routers.payment-module.middlewares=traefik-forward-auth
