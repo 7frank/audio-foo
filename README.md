@@ -30,6 +30,9 @@ The idea is to have a modular application.
 - a mechanism that assigns or revokes privileges to sso users based on subscription
   - stripe products can contain metadata, a field roles/privileges could be added whose content would allow to set roles/privileges
     - Note: this does not work for payment intents for subscriptions as metadata is not allowed there atm (mai/23)
+- encrypt relevant keys
+  - maybe use mozilla SOPS https://poweruser.blog/how-to-encrypt-secrets-in-config-files-1dbb794f7352
+  - or "npm senv"
 
 # how to
 
@@ -38,7 +41,7 @@ The idea is to have a modular application.
 - [add the correct .env variables for your provider](https://hub.docker.com/r/thomseddon/traefik-forward-auth#configuration)
   - if they where wrong docker-compose will show errors that the middleware does not exist
 - get credentials like id and secret
-  - [e.g. for Google](https://github.com/thomseddon/traefik-forward-auth/wiki/Provider-Setup)
+  - [e.g. for Google](https://github.com/thomseddon/traefik-forward-auth/wiki/Provider-Setup) and [Redirect URIs](https://github.com/thomseddon/traefik-forward-auth/wiki/Provider-Setup#redirect-uris)
     - > PROVIDERS_GOOGLE_CLIENT_ID=...
     - > PROVIDERS_GOOGLE_CLIENT_SECRET=...
 
