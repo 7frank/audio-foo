@@ -2,4 +2,5 @@ uploads/
 node_modules/
 packages/audio-backend/.cache/
 .env
-
+.turbo
+.cache/
