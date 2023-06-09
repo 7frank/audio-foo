@@ -1,23 +1,12 @@
 <script lang="ts">
 
-import { userStore,User } from "../components/userStore";
+import { userStore } from "../components/userStore";
 
-    const handleLoginWithGoogle = () => {
-      window.location.href = '/auth/google';
-    };
-  
-    const handleLoginWithFacebook = () => {
-      window.location.href = '/auth/facebook';
-    };
-  
-    const handleLoginWithGitHub = () => {
-      window.location.href = 'api/auth/github';
-    };
  
     import { onMount } from 'svelte';
   
     onMount(() => {
-      // Load Font Awesome icons
+      // Load Font Awesome icons // TODO remove  if no longer necessary
       import('@fortawesome/fontawesome-free/js/all.js');
     });
 
@@ -30,13 +19,16 @@ import { userStore,User } from "../components/userStore";
     {#if $userStore}
        <span>Logged in as {$userStore.email}</span>
     {:else}
-    <h2>Login with:</h2>
-    <div class="company-icon" on:click={handleLoginWithGitHub}>
+    <h2>not logged in</h2>
+    <div class="company-icon" >
       <i class="fab fa-github"></i>
-      <span class="company-name">GitHub</span>
+      <span class="company-name">GitHub </span>
+    </div>
+    <div class="company-icon" >
+       <i class="fab fa-google"></i>
+      <span class="company-name"> Google</span>
     </div>
       {/if}
-    
     
     </div>
   <style>

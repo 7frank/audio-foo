@@ -6,7 +6,7 @@
     let error = "";
   
   async function fetchUser() {
-    const response = await fetch("http://localhost:8080/api/auth/github/me");
+    const response = await fetch("http://localhost/api/auth/github/me");
     if (!response.ok)
     {
       error=""+response.status+response.statusText

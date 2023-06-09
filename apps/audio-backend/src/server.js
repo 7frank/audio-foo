@@ -11,7 +11,7 @@ const io = require("socket.io")(http);
 
 const formidable = require("formidable");
 const { q, addQueueEventListeners } = require("./queue");
-const { router, authenticateServer } = require("./auth-n/github");
+const { router } = require("./auth-n/github");
 
 let proxyAppPath = "/api";
 
@@ -63,8 +63,7 @@ app.post("/upload", function (req, res, next) {
   });
 });
 
-const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PORT } = process.env;
-authenticateServer(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET);
+const { PORT } = process.env;
 
 app.use("/auth/github", router);
 
