@@ -17,7 +17,9 @@ let proxyAppPath = "/api";
 
 // https://github.com/expressjs/serve-index/issues/53
 app.use(function (req, res, next) {
-  req.originalUrl = proxyAppPath + req.url;
+  // changed uploads path to work with traefik (TODO is there a middleware solution that works better?)
+  req.url = req.url.replace(proxyAppPath, "");
+
   next();
 });
 

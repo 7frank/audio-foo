@@ -47,7 +47,20 @@ services:
       - ".env"
     labels:
       - traefik.enable=true
-      - traefik.http.routers.frontend.rule=Host(`whoami.localhost`)
+      - traefik.http.routers.backend.rule=PathPrefix(`/api`)
+
+  payment-module:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    working_dir: /app/apps/payment-module
+    volumes:
+      - "./:/app"
+    env_file:
+      - ".env"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.payment-module.rule=PathPrefix(`/payment-module`)
 
   # auth-server:
   #   image: thomseddon/traefik-forward-auth:latest

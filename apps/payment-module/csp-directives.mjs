@@ -1,4 +1,4 @@
-const rootDomain = process.env.VITE_DOMAIN ?? 'http://localhost:5173'; // or your server IP for dev
+const rootDomain = process.env.VITE_DOMAIN ?? 'http://localhost:80'; // or your server IP for dev
 
 console.log('rootDomain', rootDomain);
 
