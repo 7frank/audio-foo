@@ -61,7 +61,7 @@ app.post("/upload", function (req, res, next) {
   });
 });
 
-const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
+const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, PORT } = process.env;
 authenticateServer(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET);
 
 app.use("/auth/github", router);
@@ -76,10 +76,10 @@ io.on("connection", (socket) => {
 });
 
 // Start the server
-http.listen(8000, () => {
-  console.log("Server is running on http://localhost:8000");
+http.listen(PORT ?? 8000, () => {
+  console.log("Server is running on http://localhost:" + PORT ?? 8000);
 });
 
-// app.listen(8000, () => {
+// app.listen(PORT??8000, () => {
 //   console.log("Server is running on port 8000");
 // });
