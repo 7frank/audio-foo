@@ -38,9 +38,9 @@ services:
       - ".env"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=Host(`whoami2.localhost`)"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
       - "traefik.http.routers.frontend.entrypoints=web2"
-      - "traefik.http.services.spa-to-http.loadbalancer.server.port=5100"
+      - "traefik.http.services.frontend.loadbalancer.server.port=5100"
   # backend:
   #   image: "temedica/permea-monitor-generic-backend"
   #   #env_file:
