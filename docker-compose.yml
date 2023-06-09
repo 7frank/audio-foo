@@ -35,6 +35,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.vite.rule=PathPrefix(`/`)
+      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
 
   backend:
     build:
@@ -48,6 +49,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.backend.rule=PathPrefix(`/api`)
+      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
 
   payment-module:
     build:
@@ -61,16 +63,16 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.payment-module.rule=PathPrefix(`/payment-module`)
+      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
 
-  # auth-server:
-  #   image: thomseddon/traefik-forward-auth:latest
-  #   environment:
-  #     - FORWARD_AUTH_PROVIDERS_GITHUB_CLIENT_ID=your-github-client-id
-  #     - FORWARD_AUTH_PROVIDERS_GITHUB_CLIENT_SECRET=your-github-client-secret
-  #     - FORWARD_AUTH_PROVIDERS_GITHUB_ORG=your-github-organization (optional)
-  #     - FORWARD_AUTH_SUCCESS_URL=http://your-service.example.com
-  #     - FORWARD_AUTH_LOG_LEVEL=debug (optional)
-  #   ports:
-  #     - "4181:4181"
-  #   labels:
-  #     - "traefik.enable=false"
+  traefik-forward-auth:
+    image: thomseddon/traefik-forward-auth:2
+    environment:
+      - PROVIDERS_GOOGLE_CLIENT_ID=idddd
+      - PROVIDERS_GOOGLE_CLIENT_SECRET=seccccc
+      - SECRET=something-random-123123
+      - INSECURE_COOKIE=true # Example assumes no https, do not use in production
+    labels:
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
+      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
