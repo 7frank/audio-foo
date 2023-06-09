@@ -33,8 +33,18 @@ The idea is to have a modular application.
 
 # how to
 
-goto `http://localhost:8080/upload` after you started the application
+## setup OAuth providers
+
+- [add the correct .env variables for your provider](https://hub.docker.com/r/thomseddon/traefik-forward-auth#configuration)
+  - if they where wrong docker-compose will show errors that the middleware does not exist
+- get credentials like id and secret
+  - [e.g. for Google](https://github.com/thomseddon/traefik-forward-auth/wiki/Provider-Setup)
+    - > PROVIDERS_GOOGLE_CLIENT_ID=...
+    - > PROVIDERS_GOOGLE_CLIENT_SECRET=...
 
 ## start the application
 
 `pnpm i` & `docker-compose up --build`
+
+goto `http://localhost` after you started the application
+click on "uploads" in the naviation
