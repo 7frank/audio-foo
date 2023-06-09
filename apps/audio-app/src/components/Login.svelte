@@ -16,9 +16,9 @@ import { userStore } from "../components/userStore";
    
     <div class="company-icons">
       
-    {#if $userStore}
-       <span>Logged in as {$userStore.email}</span>
-    {:else}
+    {#if $userStore.status === 'loggedIn'}
+       <span>Logged in as {$userStore.user.email}</span>
+    {:else if $userStore.status === 'notLoggedIn'}
     <h2>not logged in</h2>
     <div class="company-icon" >
       <i class="fab fa-github"></i>
@@ -28,6 +28,8 @@ import { userStore } from "../components/userStore";
        <i class="fab fa-google"></i>
       <span class="company-name"> Google</span>
     </div>
+    {:else if $userStore.status === 'failed'}
+    <h2>Login error occurred</h2>
       {/if}
     
     </div>

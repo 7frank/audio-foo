@@ -1,36 +1,13 @@
 <script>
-	import { onMount } from "svelte";
-	import { userStore,User } from "../../components/userStore";
-
-
-    let error = "";
-  
-  async function fetchUser() {
-    const response = await fetch("http://localhost/api/auth/github/me");
-    if (!response.ok)
-    {
-      error=""+response.status+response.statusText
-      return;
-    }
-    const json=await response.json()
-    
-    $userStore = User.parse(json)
-
-  }
-
-  onMount(() => {
-      fetchUser().catch(e => error=e.message)
-  })
-
-  </script>
+	import { userStore } from "../../components/userStore";
+ </script>
   
   <main>
    
-    {#if $userStore}
-      <pre>{JSON.stringify($userStore,null,'  ')}</pre>
-    {/if}
-    {#if error}
-      <pre>{error}</pre>
+    {#if $userStore.status === 'loggedIn'}
+      <pre>{JSON.stringify($userStore.user,null,'  ')}</pre>
+    {:else}
+        <pre>{JSON.stringify($userStore,null,'  ')}</pre>
     {/if}
 
   </main>
