@@ -4,7 +4,7 @@
 
 This is somewhat of an audio tool, that extracts certain instruments from a song
 
-Until now it slices the fist 5 seconds of a song and runs the result through the extraction process
+Until now it slices the first 5 seconds of a song and runs the result through the extraction process
 
 ## user stories
 
@@ -22,7 +22,7 @@ Until now it slices the fist 5 seconds of a song and runs the result through the
 
 The idea is to have a modular application.
 
-- behind a reverse proxy like traefik
+- behind a reverse proxy "traefik"
   - Note:https://chat.openai.com/c/78b14b35-f3d5-4770-a6cd-09988a221019
 - a AuthN traefik middleware
   - https://github.com/thomseddon/traefik-forward-auth/wiki/Provider-Setup
@@ -35,26 +35,6 @@ The idea is to have a modular application.
 
 goto `http://localhost:8080/upload` after you started the application
 
-## get svelte frontent running
+## start the application
 
-`cd packages/audio-app`
-`npm i`
-`npm run dev`
-
-## get backend running
-
-`cd packages/audio-backend`
-`npm i`
-`npm run dev`
-
-## get gateway running
-
-`cd packages/gateway`
-`npm i`
-`npm run dev`
-
-## get payment-module running
-
-`cd packages/payment-module`
-`npm i`
-`npm run dev`
+`pnpm i` & `docker-compose up --build`
