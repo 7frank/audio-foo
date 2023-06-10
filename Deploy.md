@@ -74,4 +74,6 @@
 ## start application
 
 - `docker compose up -d`
--
+
+- run logs right afterwards if you so desire
+  - `docker-compose logs --tail=0 --follow`
