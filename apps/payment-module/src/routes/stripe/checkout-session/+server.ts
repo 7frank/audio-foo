@@ -35,16 +35,34 @@ export const POST = async (event: RequestEvent) => {
 
 	// TODO call stripe and find customerId from email (if it does not exist use email to create customer)
 
-	const customerId = formData.customerId ?? 'cus_NzOhN7bd0k9xoW'; // FIXME remote static customer
-
 	const customer_email = event.request.headers.get('x-forwarded-user');
+
+	let customerIdOrEmail:
+		| Pick<Stripe.Checkout.SessionCreateParams, 'customer'>
+		| Pick<Stripe.Checkout.SessionCreateParams, 'customer_email'> = {};
+
+	if (customer_email) {
+		const customersResponse = await stripe.customers.list({ email: customer_email });
+		const c = customersResponse.data.pop();
+
+		// TODO remove?
+		// const customerId = formData.customerId ?? 'cus_NzOhN7bd0k9xoW'; // FIXME remote static customer
+
+		if (c?.id) customerIdOrEmail = { customer: c?.id };
+		else customerIdOrEmail = { customer_email: customer_email };
+
+		console.log(customersResponse);
+	}
 
 	const mode = formData.mode as Mode;
 	const productId = formData.productId;
-	if (!customer_email && !customerId)
+
+	// Should not occur
+	if (!('customer_email' in customerIdOrEmail) && !('customer' in customerIdOrEmail))
 		return json({ message: 'neither email nor customerId defined' }, { status: 400 });
 
 	const checkoutSessionOptions: Stripe.Checkout.SessionCreateParams = {
+		...customerIdOrEmail,
 		mode: mode,
 		payment_method_types: ['card'],
 		line_items: [
@@ -62,9 +80,6 @@ export const POST = async (event: RequestEvent) => {
 				  }
 				: undefined
 	};
-
-	if (customerId) checkoutSessionOptions.customer = customerId;
-	else if (customer_email) checkoutSessionOptions.customer_email = customer_email;
 
 	try {
 		const session = await stripe.checkout.sessions.create(checkoutSessionOptions);
