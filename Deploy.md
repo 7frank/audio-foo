@@ -73,7 +73,7 @@
 
 ## start application
 
-- `docker compose up -d`
+- `sudo docker compose up -d`
 
 - run logs right afterwards if you so desire
-  - `docker-compose logs --tail=0 --follow`
+  - `sudo docker compose logs --tail=0 --follow`

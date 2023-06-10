@@ -4,7 +4,7 @@
 
 #################################################################
 
-TODO dockerfile
+# TODO dockerfile put things below in a dockerfile
 
 sudo apt install ffmpeg
 sudo apt-get install fluidsynth

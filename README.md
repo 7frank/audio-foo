@@ -51,3 +51,14 @@ The idea is to have a modular application.
 
 goto `http://localhost` after you started the application
 click on "uploads" in the naviation
+
+## deploy
+
+[see here](./Deploy.md)
+
+- TODO
+
+  - register domain "7frank.dev"
+  - register certificate
+    - [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
+  - stripe env variables
