@@ -7,8 +7,9 @@
 
 - open ssh console
 
-- install docker
-  - https://docs.docker.com/engine/install/debian/
+## install docker
+
+- https://docs.docker.com/engine/install/debian/
 
 > sudo apt-get update
 > sudo apt-get install ca-certificates curl gnupg
@@ -28,14 +29,15 @@
 >
 > # sudo docker run hello-world
 
-- clone repo
+## clone repo
 
-  - `git clone https://github.com/7frank/audio-foo.git`
-  - `cd audio-foo/`
+- `git clone https://github.com/7frank/audio-foo.git`
+- `cd audio-foo/`
 
-- update environment variables
-  - `touch .env`
-  - `nano .env`
+## update environment variables
+
+- `touch .env`
+- `nano .env`
 
 > PORT=80
 > PROVIDERS_GOOGLE_CLIENT_ID=<insert-here>
@@ -46,5 +48,30 @@
 >
 > LOG_LEVEL=debug
 
-- run application
-  - `docker compose up`
+## install globals
+
+- install nvm
+
+  - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash`
+  - see output and take path of .bashrc for next command
+  - `source /home/<your-user>/.bashrc`
+
+- install npm
+
+  - `nvm install 18`
+  - `nvm alias default 16`
+  - `nvm use 18`
+  - `node -v`
+
+- install pnpm
+
+  - `npm i -g pnpm`
+
+# install actual dependencies
+
+- `pnpm i`
+
+## start application
+
+- `docker compose up -d`
+-
