@@ -1,0 +1,46 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        image:
+          - name: <image-1-name>
+            path: <path-to-service-1>
+          - name: <image-2-name>
+            path: <path-to-service-2>
+          # Add more images and paths as needed
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: <your-aws-region>
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ matrix.image.name }} ${{ matrix.image.path }}
+          docker push ${{ matrix.image.name }}
+
+      - name: Deploy to Elastic Beanstalk
+        run: |
+          aws elasticbeanstalk create-application-version --application-name <application-name> --version-label ${{ github.sha }} --source-bundle S3Bucket=<bucket-name>,S3Key=<compose-file-key>
+          aws elasticbeanstalk update-environment --application-name <application-name> --environment-name <environment-name> --version-label ${{ github.sha }}
+
+      # - name: Deploy to Elastic Beanstalk
+      #   run: |
+      #     aws s3 cp docker-compose.yaml s3://<bucket-name>/docker-compose.yaml
+      #     aws elasticbeanstalk create-application-version --application-name <application-name> --version-label ${{ github.sha }} --source-bundle S3Bucket=<bucket-name>,S3Key=docker-compose.yaml
+      #     aws elasticbeanstalk update-environment --application-name <application-name> --environment-name <environment-name> --version-label ${{ github.sha }}
