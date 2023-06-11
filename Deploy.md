@@ -93,3 +93,6 @@ Note: you might have to follow registering a domainand enabling https first
 
 `dig +trace 7frank.dev`
 `nslookup 7frank.dev`
+
+- test that something is running at the ip
+  - ssh to compute engine and start nginx `sudo docker run -d --publish 80:80 nginx`

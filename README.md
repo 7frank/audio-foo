@@ -60,4 +60,8 @@ click on "uploads" in the naviation
 
 - register certificate
   - [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
+  - https://cloud.google.com/community/tutorials/nginx-reverse-proxy-docker
 - stripe env variables
+
+- setup remote desktop
+  - https://cloud.google.com/architecture/chrome-desktop-remote-on-compute-engine?hl=de
