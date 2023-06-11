@@ -59,6 +59,19 @@ click on "uploads" in the naviation
 - TODO
 
   - register domain "7frank.dev"
-  - register certificate
-    - [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
-  - stripe env variables
+
+    - https://cloud.google.com/dns/docs/tutorials/create-domain-tutorial
+      - [register a domain](https://domains.google.com/)
+      - [create a dns zone](https://console.cloud.google.com/networking/dns/zones/~new?_ga=2.214516318.830896514.1686422795-466992886.1669232139)
+
+> ns-cloud-a1.googledomains.com
+> ns-cloud-a2.googledomains.com
+> ns-cloud-a3.googledomains.com
+> ns-cloud-a4.googledomains.com
+
+`dig +trace 7frank.dev`
+`nslookup 7frank.dev`
+
+- register certificate
+  - [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
+- stripe env variables
