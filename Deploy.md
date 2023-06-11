@@ -77,3 +77,19 @@
 
 - run logs right afterwards if you so desire
   - `sudo docker compose logs --tail=0 --follow`
+
+Note: you might have to follow registering a domainand enabling https first
+
+# register domain "7frank.dev"
+
+    - https://cloud.google.com/dns/docs/tutorials/create-domain-tutorial
+      - [register a domain](https://domains.google.com/)
+      - [create a dns zone](https://console.cloud.google.com/networking/dns/zones/~new?_ga=2.214516318.830896514.1686422795-466992886.1669232139)
+
+> ns-cloud-a1.googledomains.com
+> ns-cloud-a2.googledomains.com
+> ns-cloud-a3.googledomains.com
+> ns-cloud-a4.googledomains.com
+
+`dig +trace 7frank.dev`
+`nslookup 7frank.dev`
