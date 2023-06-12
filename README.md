@@ -56,7 +56,16 @@ click on "uploads" in the naviation
 
 [see here](./Deploy.md)
 
-- TODO
+## WIP
+
+# try registering ssl certificate for `7frank.dev `
+
+- https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs?hl=de
+  - https://console.cloud.google.com/security/ccm/list/lbCertificates?hl=de&_ga=2.150438655.830896514.1686422795-466992886.1669232139
+  - https://console.cloud.google.com/net-services/loadbalancing/list/loadBalancers?hl=de&_ga=2.184979168.830896514.1686422795-466992886.1669232139
+- Note but that would require setting up a load balancer via google and we as of now don't want that
+
+## todo
 
 - register certificate
   - [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
