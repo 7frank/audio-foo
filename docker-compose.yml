@@ -4,9 +4,18 @@ services:
   traefik:
     image: traefik:v2.2
     command:
-      - "--providers.docker"
+      - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=frank.reimann.007@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
+      # by default we do not need to define a provider
+      #   - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
     ports:
       - "80:80"
       - "8080:8080"
@@ -22,12 +31,12 @@ services:
       - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
       - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
 
-  whoami:
-    image: containous/whoami
-    labels:
-      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
-      # This example uses "Selective Authentication"
-      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
+  # whoami:
+  #   image: containous/whoami
+  #   labels:
+  #     - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+  #     # This example uses "Selective Authentication"
+  #     - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
 
   vite:
     build:
@@ -42,6 +51,9 @@ services:
       - traefik.enable=true
       - traefik.http.routers.vite.rule=PathPrefix(`/`)
       - traefik.http.routers.vite.middlewares=traefik-forward-auth
+      - "traefik.http.routers.vite.entrypoints=websecure"
+      - "traefik.http.routers.vite.tls.certresolver=myresolver"
+      - "traefik.http.routers.vite.tls.domains[0].main=7frank.dev"
 
   backend:
     build:
@@ -56,6 +68,9 @@ services:
       - traefik.enable=true
       - traefik.http.routers.backend.rule=PathPrefix(`/api`)
       - traefik.http.routers.backend.middlewares=traefik-forward-auth
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls.certresolver=myresolver"
+      - "traefik.http.routers.backend.tls.domains[0].main=7frank.dev"
 
   payment-module:
     build:
@@ -70,3 +85,6 @@ services:
       - traefik.enable=true
       - traefik.http.routers.payment-module.rule=PathPrefix(`/payment-module`)
       - traefik.http.routers.payment-module.middlewares=traefik-forward-auth
+      - "traefik.http.routers.payment-module.entrypoints=websecure"
+      - "traefik.http.routers.payment-module.tls.certresolver=myresolver"
+      - "traefik.http.routers.payment-module.tls.domains[0].main=7frank.dev"
