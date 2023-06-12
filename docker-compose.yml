@@ -10,6 +10,8 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      # enable for local development
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.myresolver.acme.email=frank.reimann.007@gmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
       - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
@@ -30,9 +32,10 @@ services:
       - ".env"
     labels:
       - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
+      #- "traefik.http.middlewares.traefik-forward-auth.forwardauth.trustForwardHeader=true"
       - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
       - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
-
+      #- "traefik.http.routers.traefik-forward-auth-https.middlewares=forward-auth@file"
   # whoami:
   #   image: containous/whoami
   #   labels:
@@ -57,36 +60,36 @@ services:
       - "traefik.http.routers.vite.tls.certresolver=myresolver"
       - "traefik.http.routers.vite.tls.domains[0].main=7frank.dev"
 
-  backend:
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-    working_dir: /app/apps/audio-backend
-    volumes:
-      - "./:/app"
-    env_file:
-      - ".env"
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.backend.rule=PathPrefix(`/api`)
-      - traefik.http.routers.backend.middlewares=traefik-forward-auth
-      - "traefik.http.routers.backend.entrypoints=websecure"
-      - "traefik.http.routers.backend.tls.certresolver=myresolver"
-      - "traefik.http.routers.backend.tls.domains[0].main=7frank.dev"
+  # backend:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/Dockerfile
+  #   working_dir: /app/apps/audio-backend
+  #   volumes:
+  #     - "./:/app"
+  #   env_file:
+  #     - ".env"
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.backend.rule=PathPrefix(`/api`)
+  #     - traefik.http.routers.backend.middlewares=traefik-forward-auth
+  #     - "traefik.http.routers.backend.entrypoints=websecure"
+  #     - "traefik.http.routers.backend.tls.certresolver=myresolver"
+  #     - "traefik.http.routers.backend.tls.domains[0].main=7frank.dev"
 
-  payment-module:
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-    working_dir: /app/apps/payment-module
-    volumes:
-      - "./:/app"
-    env_file:
-      - ".env"
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.payment-module.rule=PathPrefix(`/payment-module`)
-      - traefik.http.routers.payment-module.middlewares=traefik-forward-auth
-      - "traefik.http.routers.payment-module.entrypoints=websecure"
-      - "traefik.http.routers.payment-module.tls.certresolver=myresolver"
-      - "traefik.http.routers.payment-module.tls.domains[0].main=7frank.dev"
+  # payment-module:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/Dockerfile
+  #   working_dir: /app/apps/payment-module
+  #   volumes:
+  #     - "./:/app"
+  #   env_file:
+  #     - ".env"
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.payment-module.rule=PathPrefix(`/payment-module`)
+  #     - traefik.http.routers.payment-module.middlewares=traefik-forward-auth
+  #     - "traefik.http.routers.payment-module.entrypoints=websecure"
+  #     - "traefik.http.routers.payment-module.tls.certresolver=myresolver"
+  #     - "traefik.http.routers.payment-module.tls.domains[0].main=7frank.dev"

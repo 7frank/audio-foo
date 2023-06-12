@@ -87,9 +87,13 @@ click on "uploads" in the naviation
   - solution wrong parameters [see](example.docker-compose.yaml)
 
 - register static ip and assign to compute engine
+
   - problem ip currently dynamic > after restart dns record needs to be updated on cloud console
   - https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address?hl=de
   - update dns record (A)
+
+- traefik-forward-auth seems to have problems with https -.-
+  - https://github.com/traefik/traefik/issues/4972
 
 ### stripe env variables
 
