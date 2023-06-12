@@ -1,0 +1,145 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=frank.reimann.007@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
+   #   - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
+    ports:
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.whoami.tls.domains[0].main=7frank.dev"
+#      - "traefik.http.routers.whoami.tls.domains[0].sans=*.7frank.dev"
+
+
+
+frank_reimann_007@payment-app-instance-1:~/audio-foo$ sudo docker compose up
+[+] Building 0.0s (0/0)                                                                                                                                                                         
+WARN[0000] Found orphan containers ([audio-foo-vite-1 audio-foo-payment-module-1 audio-foo-backend-1 audio-foo-traefik-forward-auth-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
+[+] Running 2/2
+ ✔ Container simple-service  Recreated                                                                                                                                                     0.1s 
+ ✔ Container traefik         Created                                                                                                                                                       0.0s 
+Attaching to simple-service, traefik
+simple-service  | 2023/06/12 21:55:08 Starting up on port 80
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Configuration loaded from flags."
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Traefik version 2.10.1 built on 2023-04-27T14:52:35Z"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Static configuration loaded {\"global\":{\"checkNewVersion\":true},\"serversTransport\":{\"maxIdleConnsPerHost\":200},\"entryPoints\":{\"traefik\":{\"address\":\":8080\",\"transport\":{\"lifeCycle\":{\"graceTimeOut\":\"10s\"},\"respondingTimeouts\":{\"idleTimeout\":\"3m0s\"}},\"forwardedHeaders\":{},\"http\":{},\"http2\":{\"maxConcurrentStreams\":250},\"udp\":{\"timeout\":\"3s\"}},\"websecure\":{\"address\":\":443\",\"transport\":{\"lifeCycle\":{\"graceTimeOut\":\"10s\"},\"respondingTimeouts\":{\"idleTimeout\":\"3m0s\"}},\"forwardedHeaders\":{},\"http\":{},\"http2\":{\"maxConcurrentStreams\":250},\"udp\":{\"timeout\":\"3s\"}}},\"providers\":{\"providersThrottleDuration\":\"2s\",\"docker\":{\"watch\":true,\"endpoint\":\"unix:///var/run/docker.sock\",\"defaultRule\":\"Host(`{{ normalize .Name }}`)\",\"swarmModeRefreshSeconds\":\"15s\"}},\"api\":{\"insecure\":true,\"dashboard\":true},\"log\":{\"level\":\"DEBUG\",\"format\":\"common\"},\"certificatesResolvers\":{\"myresolver\":{\"acme\":{\"email\":\"frank.reimann.007@gmail.com\",\"caServer\":\"https://acme-v02.api.letsencrypt.org/directory\",\"storage\":\"/letsencrypt/acme.json\",\"keyType\":\"RSA4096\",\"certificatesDuration\":2160,\"dnsChallenge\":{},\"tlsChallenge\":{}}}}}"
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="\nStats collection is disabled.\nHelp us improve Traefik by turning this feature on :)\nMore details on: https://doc.traefik.io/traefik/contributing/data-collection/\n"
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Starting provider aggregator aggregator.ProviderAggregator"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Starting TCP Server" entryPointName=websecure
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Starting TCP Server" entryPointName=traefik
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Starting provider *traefik.Provider"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="*traefik.Provider provider configuration: {}"
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Starting provider *docker.Provider"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="*docker.Provider provider configuration: {\"watch\":true,\"endpoint\":\"unix:///var/run/docker.sock\",\"defaultRule\":\"Host(`{{ normalize .Name }}`)\",\"swarmModeRefreshSeconds\":\"15s\"}"
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Starting provider *acme.ChallengeTLSALPN"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="*acme.ChallengeTLSALPN provider configuration: {}"
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Starting provider *acme.Provider"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="*acme.Provider provider configuration: {\"email\":\"frank.reimann.007@gmail.com\",\"caServer\":\"https://acme-v02.api.letsencrypt.org/directory\",\"storage\":\"/letsencrypt/acme.json\",\"keyType\":\"RSA4096\",\"certificatesDuration\":2160,\"dnsChallenge\":{},\"tlsChallenge\":{},\"ResolverName\":\"myresolver\",\"store\":{},\"TLSChallengeProvider\":{},\"HTTPChallengeProvider\":{}}"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Attempt to renew certificates \"720h0m0s\" before expiry and check every \"24h0m0s\"" providerName=myresolver.acme ACME CA="https://acme-v02.api.letsencrypt.org/directory"
+traefik         | time="2023-06-12T21:55:08Z" level=info msg="Testing certificate renew..." providerName=myresolver.acme ACME CA="https://acme-v02.api.letsencrypt.org/directory"
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Configuration received: {\"http\":{\"routers\":{\"api\":{\"entryPoints\":[\"traefik\"],\"service\":\"api@internal\",\"rule\":\"PathPrefix(`/api`)\",\"priority\":2147483646},\"dashboard\":{\"entryPoints\":[\"traefik\"],\"middlewares\":[\"dashboard_redirect@internal\",\"dashboard_stripprefix@internal\"],\"service\":\"dashboard@internal\",\"rule\":\"PathPrefix(`/`)\",\"priority\":2147483645}},\"services\":{\"api\":{},\"dashboard\":{},\"noop\":{}},\"middlewares\":{\"dashboard_redirect\":{\"redirectRegex\":{\"regex\":\"^(http:\\\\/\\\\/(\\\\[[\\\\w:.]+\\\\]|[\\\\w\\\\._-]+)(:\\\\d+)?)\\\\/$\",\"replacement\":\"${1}/dashboard/\",\"permanent\":true}},\"dashboard_stripprefix\":{\"stripPrefix\":{\"prefixes\":[\"/dashboard/\",\"/dashboard\"]}}},\"serversTransports\":{\"default\":{\"maxIdleConnsPerHost\":200}}},\"tcp\":{},\"udp\":{},\"tls\":{}}" providerName=internal
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Configuration received: {\"http\":{},\"tcp\":{},\"udp\":{},\"tls\":{}}" providerName=myresolver.acme
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Provider connection established with docker 24.0.2 (API 1.43)" providerName=docker
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Filtering disabled container" providerName=docker container=traefik-audio-foo-18a4aad70f2d1322cd9d0f214ba4cdace9bc1f73b17d8b76722d60e097bb8510
+traefik         | time="2023-06-12T21:55:08Z" level=debug msg="Configuration received: {\"http\":{\"routers\":{\"whoami\":{\"entryPoints\":[\"websecure\"],\"service\":\"whoami-audio-foo\",\"rule\":\"PathPrefix(`/`)\",\"tls\":{\"certResolver\":\"myresolver\",\"domains\":[{\"main\":\"7frank.dev\"}]}}},\"services\":{\"whoami-audio-foo\":{\"loadBalancer\":{\"servers\":[{\"url\":\"http://172.20.0.2:80\"}],\"passHostHeader\":true}}}},\"tcp\":{},\"udp\":{}}" providerName=docker
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="No default certificate, fallback to the internal generated certificate" tlsStoreName=default
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Added outgoing tracing middleware api@internal" middlewareName=tracing middlewareType=TracingForwarder entryPointName=traefik routerName=api@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Added outgoing tracing middleware dashboard@internal" middlewareType=TracingForwarder routerName=dashboard@internal entryPointName=traefik middlewareName=tracing
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" middlewareType=StripPrefix entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_stripprefix@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Adding tracing to middleware" middlewareName=dashboard_stripprefix@internal entryPointName=traefik routerName=dashboard@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" middlewareType=RedirectRegex entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_redirect@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Setting up redirection from ^(http:\\/\\/(\\[[\\w:.]+\\]|[\\w\\._-]+)(:\\d+)?)\\/$ to ${1}/dashboard/" entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_redirect@internal middlewareType=RedirectRegex
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Adding tracing to middleware" middlewareName=dashboard_redirect@internal entryPointName=traefik routerName=dashboard@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" entryPointName=traefik middlewareName=traefik-internal-recovery middlewareType=Recovery
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="No default certificate, fallback to the internal generated certificate" tlsStoreName=default
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Added outgoing tracing middleware api@internal" middlewareName=tracing middlewareType=TracingForwarder entryPointName=traefik routerName=api@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Added outgoing tracing middleware dashboard@internal" routerName=dashboard@internal middlewareName=tracing middlewareType=TracingForwarder entryPointName=traefik
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_stripprefix@internal middlewareType=StripPrefix
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Adding tracing to middleware" routerName=dashboard@internal middlewareName=dashboard_stripprefix@internal entryPointName=traefik
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_redirect@internal middlewareType=RedirectRegex
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Setting up redirection from ^(http:\\/\\/(\\[[\\w:.]+\\]|[\\w\\._-]+)(:\\d+)?)\\/$ to ${1}/dashboard/" middlewareName=dashboard_redirect@internal middlewareType=RedirectRegex entryPointName=traefik routerName=dashboard@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Adding tracing to middleware" entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_redirect@internal
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" middlewareType=Recovery entryPointName=traefik middlewareName=traefik-internal-recovery
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" entryPointName=websecure routerName=whoami@docker serviceName=whoami-audio-foo middlewareName=pipelining middlewareType=Pipelining
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating load-balancer" entryPointName=websecure routerName=whoami@docker serviceName=whoami-audio-foo
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating server 0 http://172.20.0.2:80" entryPointName=websecure routerName=whoami@docker serverName=0 serviceName=whoami-audio-foo
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="child http://172.20.0.2:80 now UP"
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Propagating new UP status"
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Added outgoing tracing middleware whoami-audio-foo" middlewareType=TracingForwarder routerName=whoami@docker entryPointName=websecure middlewareName=tracing
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Creating middleware" entryPointName=websecure middlewareName=traefik-internal-recovery middlewareType=Recovery
+traefik         | time="2023-06-12T21:55:09Z" level=warning msg="No domain found in rule PathPrefix(`/`), the TLS options applied for this router will depend on the SNI of each request" entryPointName=websecure routerName=whoami@docker
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Looking for provided certificate(s) to validate [\"7frank.dev\"]..." providerName=myresolver.acme ACME CA="https://acme-v02.api.letsencrypt.org/directory"
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Domains [\"7frank.dev\"] need ACME certificates generation for domains \"7frank.dev\"." providerName=myresolver.acme ACME CA="https://acme-v02.api.letsencrypt.org/directory"
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Loading ACME certificates [7frank.dev]..." ACME CA="https://acme-v02.api.letsencrypt.org/directory" providerName=myresolver.acme
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Building ACME client..." providerName=myresolver.acme
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="https://acme-v02.api.letsencrypt.org/directory" providerName=myresolver.acme
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="Using TLS Challenge provider." providerName=myresolver.acme
+traefik         | time="2023-06-12T21:55:09Z" level=debug msg="legolog: [INFO] [7frank.dev] acme: Obtaining bundled SAN certificate"
+traefik         | time="2023-06-12T21:55:10Z" level=debug msg="legolog: [INFO] [7frank.dev] AuthURL: https://acme-v02.api.letsencrypt.org/acme/authz-v3/236273815437"
+traefik         | time="2023-06-12T21:55:10Z" level=debug msg="legolog: [INFO] [7frank.dev] acme: authorization already valid; skipping challenge"
+traefik         | time="2023-06-12T21:55:10Z" level=debug msg="legolog: [INFO] [7frank.dev] acme: Validations succeeded; requesting certificates"
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="legolog: [INFO] [7frank.dev] Server responded with a certificate."
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Certificates obtained for domains [7frank.dev]" providerName=myresolver.acme ACME CA="https://acme-v02.api.letsencrypt.org/directory"
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Configuration received: {\"http\":{},\"tcp\":{},\"udp\":{},\"tls\":{}}" providerName=myresolver.acme
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Adding certificate for domain(s) 7frank.dev"
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="No default certificate, fallback to the internal generated certificate" tlsStoreName=default
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Added outgoing tracing middleware api@internal" routerName=api@internal middlewareName=tracing middlewareType=TracingForwarder entryPointName=traefik
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Added outgoing tracing middleware dashboard@internal" middlewareName=tracing middlewareType=TracingForwarder entryPointName=traefik routerName=dashboard@internal
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Creating middleware" middlewareType=StripPrefix entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_stripprefix@internal
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Adding tracing to middleware" routerName=dashboard@internal middlewareName=dashboard_stripprefix@internal entryPointName=traefik
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Creating middleware" middlewareName=dashboard_redirect@internal middlewareType=RedirectRegex entryPointName=traefik routerName=dashboard@internal
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Setting up redirection from ^(http:\\/\\/(\\[[\\w:.]+\\]|[\\w\\._-]+)(:\\d+)?)\\/$ to ${1}/dashboard/" entryPointName=traefik routerName=dashboard@internal middlewareName=dashboard_redirect@internal middlewareType=RedirectRegex
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Adding tracing to middleware" routerName=dashboard@internal entryPointName=traefik middlewareName=dashboard_redirect@internal
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Creating middleware" entryPointName=traefik middlewareName=traefik-internal-recovery middlewareType=Recovery
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Creating middleware" serviceName=whoami-audio-foo entryPointName=websecure middlewareName=pipelining middlewareType=Pipelining routerName=whoami@docker
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Creating load-balancer" entryPointName=websecure routerName=whoami@docker serviceName=whoami-audio-foo
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Creating server 0 http://172.20.0.2:80" routerName=whoami@docker serviceName=whoami-audio-foo entryPointName=websecure serverName=0
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="child http://172.20.0.2:80 now UP"
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Propagating new UP status"
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Added outgoing tracing middleware whoami-audio-foo" routerName=whoami@docker middlewareName=tracing middlewareType=TracingForwarder entryPointName=websecure
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Creating middleware" entryPointName=websecure middlewareName=traefik-internal-recovery middlewareType=Recovery
+traefik         | time="2023-06-12T21:55:13Z" level=warning msg="No domain found in rule PathPrefix(`/`), the TLS options applied for this router will depend on the SNI of each request" entryPointName=websecure routerName=whoami@docker
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="Looking for provided certificate(s) to validate [\"7frank.dev\"]..." providerName=myresolver.acme ACME CA="https://acme-v02.api.letsencrypt.org/directory"
+traefik         | time="2023-06-12T21:55:13Z" level=debug msg="No ACME certificate generation required for domains [\"7frank.dev\"]." providerName=myresolver.acme ACME CA="https://acme-v02.api.letsencrypt.org/directory"
+traefik         | time="2023-06-12T21:56:13Z" level=debug msg="Serving default certificate for request: \"35.210.219.124\""
+traefik         | time="2023-06-12T21:56:13Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58030: read tcp 172.20.0.3:443->74.207.237.46:58030: read: connection reset by peer"
+traefik         | time="2023-06-12T21:56:13Z" level=debug msg="Serving default certificate for request: \"35.210.219.124\""
+traefik         | time="2023-06-12T21:56:13Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58038: read tcp 172.20.0.3:443->74.207.237.46:58038: read: connection reset by peer"
+traefik         | time="2023-06-12T21:56:13Z" level=debug msg="Serving default certificate for request: \"35.210.219.124\""
+traefik         | time="2023-06-12T21:56:13Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58048: tls: no cipher suite supported by both client and server"
+traefik         | time="2023-06-12T21:56:14Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58056: tls: client requested unsupported application protocols ([http/0.9 http/1.0 spdy/1 spdy/2 spdy/3 h2c hq])"
+traefik         | time="2023-06-12T21:56:14Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58058: tls: client requested unsupported application protocols ([hq h2c spdy/3 spdy/2 spdy/1 http/1.0 http/0.9])"
+traefik         | time="2023-06-12T21:56:14Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58068: tls: client offered only unsupported versions: [302 301]"
+traefik         | time="2023-06-12T21:56:14Z" level=debug msg="Serving default certificate for request: \"35.210.219.124\""
+traefik         | time="2023-06-12T21:56:14Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58070: read tcp 172.20.0.3:443->74.207.237.46:58070: read: connection reset by peer"
+traefik         | time="2023-06-12T21:56:14Z" level=debug msg="Serving default certificate for request: \"35.210.219.124\""
+traefik         | time="2023-06-12T21:56:15Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58078: read tcp 172.20.0.3:443->74.207.237.46:58078: read: connection reset by peer"
+traefik         | time="2023-06-12T21:56:15Z" level=debug msg="Serving default certificate for request: \"35.210.219.124\""
+traefik         | time="2023-06-12T21:56:15Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58086: read tcp 172.20.0.3:443->74.207.237.46:58086: read: connection reset by peer"
+traefik         | time="2023-06-12T21:56:15Z" level=debug msg="Serving default certificate for request: \"35.210.219.124\""
+traefik         | time="2023-06-12T21:56:15Z" level=debug msg="http: TLS handshake error from 74.207.237.46:58090: read tcp 172.20.0.3:443->74.207.237.46:58090: read: connection reset by peer"

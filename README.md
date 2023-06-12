@@ -67,10 +67,33 @@ click on "uploads" in the naviation
 
 ## todo
 
-- register certificate
-  - [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
-  - https://cloud.google.com/community/tutorials/nginx-reverse-proxy-docker
-- stripe env variables
+### register certificate
+
+- [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
+- https://cloud.google.com/community/tutorials/nginx-reverse-proxy-docker
+- https://letsencrypt.org/getting-started/
+
+  > sudo apt install snapd
+  > sudo snap install core; sudo snap refresh core
+  > sudo snap install --classic certbot
+  > sudo ln -s /snap/bin/certbot /usr/bin/certbot
+  > "stop webserver at port 80 if any"
+  > sudo certbot certonly --standalone
+  > "follow instructions"
+
+- https://doc.traefik.io/traefik/user-guides/docker-compose/acme-tls/
+
+  - problem: self signed
+  - solution wrong parameters [see](example.docker-compose.yaml)
+
+- register static ip and assign to compute engine
+  - problem ip currently dynamic > after restart dns record needs to be updated on cloud console
+  - https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address?hl=de
+  - update dns record (A)
+
+### stripe env variables
+
+- test if we can remove the a record
 
 - setup remote desktop
   - https://cloud.google.com/architecture/chrome-desktop-remote-on-compute-engine?hl=de

@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  traefik:
+    image: "traefik:v2.10"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=frank.reimann.007@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
+      # by default we do not need to define a provider
+      #   - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
+    ports:
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.whoami.tls.domains[0].main=7frank.dev"
+# for wildcard certificates we probably need a more difficult challenge
+#      - "traefik.http.routers.whoami.tls.domains[0].sans=*.7frank.dev"
