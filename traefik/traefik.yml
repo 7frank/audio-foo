@@ -27,8 +27,8 @@ certificatesResolvers:
       # caserver: "https://acme-staging-v02.api.letsencrypt.org/directory"
       email: "frank.reimann.007@gmail.com"
       storage: "/letsencrypt/acme.json"
-      dnsChallenge: : true
-        
-        # enabled: true
-        # does not seem to exist in config schema
-        # delayBeforeCheck: "0"
+      dnsChallenge: true
+
+      # enabled: true
+      # does not seem to exist in config schema
+      # delayBeforeCheck: "0"

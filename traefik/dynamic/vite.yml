@@ -3,7 +3,8 @@ http:
     vite:
       rule: "PathPrefix(`/`)"
       service: vite
-      #middlewares: traefik-forward-auth
+      middlewares:
+        #- "traefik-forward-auth"
       entryPoints:
         - web
         - web-secure

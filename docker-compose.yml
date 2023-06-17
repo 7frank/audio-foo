@@ -3,26 +3,12 @@ version: "3.9"
 services:
   traefik:
     image: traefik:v2.2
-    command:
-      - "--log.level=DEBUG"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      # enable for local development
-      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesresolvers.myresolver.acme.email=frank.reimann.007@gmail.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.myresolver.acme.dnschallenge=true"
-      # by default we do not need to define a provider
-      #   - "--certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0"
     ports:
       - "443:443"
       - "80:80"
       - "8080:8080"
     volumes:
+      - "./traefik:/etc/traefik/"
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
@@ -52,13 +38,13 @@ services:
       - "./:/app"
     env_file:
       - ".env"
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.vite.rule=PathPrefix(`/`)
-      - traefik.http.routers.vite.middlewares=traefik-forward-auth
-      - "traefik.http.routers.vite.entrypoints=websecure"
-      - "traefik.http.routers.vite.tls.certresolver=myresolver"
-      - "traefik.http.routers.vite.tls.domains[0].main=7frank.dev"
+    # labels:
+    #   - traefik.enable=true
+    #   - traefik.http.routers.vite.rule=PathPrefix(`/`)
+    #   - traefik.http.routers.vite.middlewares=traefik-forward-auth
+    #   - "traefik.http.routers.vite.entrypoints=websecure"
+    #   - "traefik.http.routers.vite.tls.certresolver=myresolver"
+    #   - "traefik.http.routers.vite.tls.domains[0].main=7frank.dev"
 
   # backend:
   #   build:
