@@ -4,3 +4,4 @@ packages/audio-backend/.cache/
 .env
 .turbo
 .cache/
+letsencrypt/

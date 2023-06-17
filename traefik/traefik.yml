@@ -1,0 +1,34 @@
+# Docker configuration backend
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/dynamic/
+    watch: true
+
+log:
+  level: DEBUG
+
+api:
+  insecure: true
+
+entryPoints:
+  web:
+    address: ":80"
+  "web-secure":
+    address: ":443"
+
+certificatesResolvers:
+  myResolver:
+    acme:
+      tlsChallenge: true
+      # enable for local development
+      # caserver: "https://acme-staging-v02.api.letsencrypt.org/directory"
+      email: "frank.reimann.007@gmail.com"
+      storage: "/letsencrypt/acme.json"
+      dnsChallenge: : true
+        
+        # enabled: true
+        # does not seem to exist in config schema
+        # delayBeforeCheck: "0"
