@@ -7,18 +7,32 @@
     let currentCursorPos=0
 	let ref:HTMLInputElement;
     let succeeded=false 
+
+	let countDown=0
 	
     function start() {
-          if (!$race. isTyping) {
+		countDown=3;
+		
+
+		const timerId=setInterval(()=>{
+			countDown-=0.05
+			
+			if (!$race. isTyping && countDown<=0) {
               
 			  $race.isTyping = true;
 			  $race.startTime = new Date();
 			  $race.interval = setInterval(() => run(), 50);
 			  $race.userInput = "";
-			  setTimeout(() => ref.focus(), 0);
+			  setTimeout(() => ref.focus(), 10);
 
 			  succeeded=false
+
+			  clearInterval(timerId)
           }
+
+		},50)
+		
+		
         }
       
         function stop() {
@@ -88,10 +102,17 @@
   <h1>Typing Practice</h1>
   
  
+  
+  {#if countDown>0}
+  <p>Race starts in {countDown}</p>
+  {:else}
   <button on:click={()=>start()} >Start Race</button>
+ {/if}
+
    {#if succeeded}
    <img src="https://www.w3schools.com/tags/smiley.gif" alt="Smiley face" height="42" width="42">
    {/if}
+   
   <h1>WPM: {$race.wpm} </h1>
 
   <p>	{#each $race.text.split("") as item, i (i)}
