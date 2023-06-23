@@ -1,102 +1,99 @@
 <script lang="ts">
-	import { spring } from 'svelte/motion';
+	import { createRace } from "./store";
 
-	let count = 0;
 
-	const displayed_count = spring();
-	$: displayed_count.set(count);
-	$: offset = modulo($displayed_count, 1);
 
-	function modulo(n: number, m: number) {
-		// handle negative numbers
-		return ((n % m) + m) % m;
+
+
+	const race= createRace("Type the text here");
+     
+
+	let diffPos=0
+    let currentCursorPos=0
+	let ref:HTMLInputElement;
+      
+    function start() {
+          if (!$race. isTyping) {
+              console.log("start")
+			  $race.isTyping = true;
+			  $race.startTime = new Date();
+			  $race.interval = setInterval(() => run(), 50);
+			  ref.focus(); 
+          }
+        }
+      
+        function stop() {
+          if ($race.isTyping) {
+            $race.isTyping = false;
+            $race.endTime = new Date();
+            clearInterval($race.interval!);
+            calculateWPM();
+          }
+        }
+      
+        function run() {
+          // Perform any additional logic during the typing practice interval
+          // For example, you can track user input and update the displayed text.
+
+		  calculateWPM()
+		  diffPos=findFirstDifference($race.text, $race.userInput)
+		  currentCursorPos=$race.userInput.length
+        }
+      
+         function calculateWPM() {
+          const timeInSeconds = ($race.endTime.getTime() - $race.startTime.getTime()) / 1000;
+         
+          $race.wpm = Math.round(diffPos / (timeInSeconds / 5));
+          console.log(`Your WPM: ${$race.wpm}`);
+        }
+      
+
+
+		function findFirstDifference(text1:string, text2:string) {
+			const length = Math.min(text1.length, text2.length);
+			
+			for (let i = 0; i < length; i++) {
+				if (text1[i] !== text2[i]) {
+				return i;
+				}
+			}
+			
+			// If the loop completes without finding a difference,
+			// check if the lengths of the texts are different
+			if (text1.length !== text2.length) {
+				return length;
+			}
+			
+			// If the lengths and all characters are the same, return -1
+			return -1;
+			}
+
+			
+  </script>
+  
+  <style>
+	input {
+	  width: 60%;
+	  
+	  resize: none;
 	}
-</script>
+  </style>
+  
+  <h1>Typing Practice</h1>
+  
+ 
+  <button on:click={()=>start()} >Start Race</button>
 
-<div class="counter">
-	<button on:click={() => (count -= 1)} aria-label="Decrease the counter by one">
-		<svg aria-hidden="true" viewBox="0 0 1 1">
-			<path d="M0,0.5 L1,0.5" />
-		</svg>
-	</button>
+  <h1>WPM: {$race.wpm} </h1>
 
-	<div class="counter-viewport">
-		<div class="counter-digits" style="transform: translate(0, {100 * offset}%)">
-			<strong class="hidden" aria-hidden="true">{Math.floor($displayed_count + 1)}</strong>
-			<strong>{Math.floor($displayed_count)}</strong>
-		</div>
-	</div>
+  <p>	{#each $race.text.split("") as item, i (i)}
+	<span style="background-color: {i<diffPos?"lightgreen": (i<currentCursorPos && diffPos<currentCursorPos )?"red":"white"};">{item}</span>
+	{/each}
+  </p>
+  <input bind:this={ref}
+	bind:value={$race.userInput}
+	disabled={!$race.isTyping}
+	
 
-	<button on:click={() => (count += 1)} aria-label="Increase the counter by one">
-		<svg aria-hidden="true" viewBox="0 0 1 1">
-			<path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1" />
-		</svg>
-	</button>
-</div>
-
-<style>
-	.counter {
-		display: flex;
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-		margin: 1rem 0;
-	}
-
-	.counter button {
-		width: 2em;
-		padding: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: 0;
-		background-color: transparent;
-		touch-action: manipulation;
-		font-size: 2rem;
-	}
-
-	.counter button:hover {
-		background-color: var(--color-bg-1);
-	}
-
-	svg {
-		width: 25%;
-		height: 25%;
-	}
-
-	path {
-		vector-effect: non-scaling-stroke;
-		stroke-width: 2px;
-		stroke: #444;
-	}
-
-	.counter-viewport {
-		width: 8em;
-		height: 4em;
-		overflow: hidden;
-		text-align: center;
-		position: relative;
-	}
-
-	.counter-viewport strong {
-		position: absolute;
-		display: flex;
-		width: 100%;
-		height: 100%;
-		font-weight: 400;
-		color: var(--color-theme-1);
-		font-size: 4rem;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.counter-digits {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-	}
-
-	.hidden {
-		top: -100%;
-		user-select: none;
-	}
-</style>
+	
+  />

@@ -18,7 +18,7 @@
 			</picture>
 		</span>
 
-		to your new<br />SvelteKit app
+		to another approach to clone typeracer and add some features
 	</h1>
 
 	<h2>
