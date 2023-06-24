@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import { writable } from 'svelte/store';
 
-	interface Race {
+	export interface Race {
 		interval?: NodeJS.Timeout;
 		countDownTimerId?: NodeJS.Timeout;
 		startTime: Date;
@@ -10,7 +10,7 @@
 		wpm: number;
 		readonly text: string;
 		userInput: string;
-		status: "idle"|"countdown"|"started"|"paused"|"succeeded"|"aborted"|"failed";
+		status: 'idle' | 'countdown' | 'started' | 'paused' | 'succeeded' | 'aborted' | 'failed';
 		countDown: number;
 		diffPos: number;
 		currentCursorPos: number;
@@ -26,7 +26,7 @@
 			text: text
 				.replace(/\s+/g, ' ') // Replace consecutive whitespace with a single space
 				.replace(/\s/g, ' '), // Convert other whitespace characters to spaces
-			status: "idle",
+			status: 'idle',
 
 			countDown: 0,
 			diffPos: 0,

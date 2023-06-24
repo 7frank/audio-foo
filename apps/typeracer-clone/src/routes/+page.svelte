@@ -17,11 +17,7 @@
 				<img src={welcome_fallback} alt="Welcome" />
 			</picture>
 		</span>
-
-	
 	</h1>
-
-
 
 	<Counter />
 </section>

@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { createRace } from './store.svelte';
+	import { createRace, type Race } from './store.svelte';
+	import { loremIpsum } from './text';
 	import { findFirstDifference } from './utils';
 
-	const race = createRace('Type the text here');
+	const race = createRace(loremIpsum);
 
 	let ref: HTMLInputElement;
 
@@ -22,7 +23,7 @@
 
 			focusInput();
 
-			$race.status = "started";
+			$race.status = 'started';
 
 			clearInterval($race.countDownTimerId);
 		}
@@ -31,19 +32,20 @@
 	function start() {
 		$race.countDown = 3;
 
-		$race.status = "countdown";
+		$race.status = 'countdown';
 
 		$race.countDownTimerId = setInterval(onCountDownTick, 50);
 	}
 
-	function stop() {
+	function stop(reason: Race['status']) {
 		if ($race.isTyping) {
 			$race.isTyping = false;
 			$race.endTime = new Date();
 			clearInterval($race.interval!);
 			calculateWPM($race.endTime);
-			$race.status = "succeeded";
 		}
+
+		$race.status = reason;
 	}
 
 	function run() {
@@ -56,7 +58,7 @@
 		$race.currentCursorPos = $race.userInput.length;
 
 		if (isSame) {
-			stop();
+			stop('succeeded');
 		}
 	}
 
@@ -67,52 +69,60 @@
 	}
 </script>
 
-
-{#if $race.status=="idle"}
-
-
-
-<h1>Typing Practice</h1>
-<ul>
-	<li>train individual weaknesses by selecting words from a sentence after the race</li>
-	<li>re-implement the word by word feature of typeRacer</li>
-	<li>
-		implement the race track / progress bar and give it a "spin" some eye candy for sections where
-		your speed is increasing
-	</li>
-	<li>try to implement other type racer features later on</li>
-</ul>
-
+{#if $race.status == 'idle'}
+	<h1>Typing Practice</h1>
+	<ul>
+		<li>train individual weaknesses by selecting words from a sentence after the race</li>
+		<li>re-implement the word by word feature of typeRacer</li>
+		<li>
+			implement the race track / progress bar and give it a "spin" some eye candy for sections where
+			your speed is increasing
+		</li>
+		<li>try to implement other type racer features later on</li>
+	</ul>
 {/if}
 
-{#if $race.countDown > 0}
+{#if $race.status == 'countdown'}
 	<p>Race starts in {$race.countDown}</p>
-{:else}
-	<button on:click={() => start()}>Start Race</button>
 {/if}
 
-{#if $race.status=="succeeded"}
+{#if $race.status == 'idle' || $race.status == 'succeeded' || $race.status == 'failed' || $race.status == 'aborted'}
+	<button on:click={() => start()}>Start a new Race</button>
+{/if}
+
+{#if $race.status == 'succeeded'}
 	<img src="https://www.w3schools.com/tags/smiley.gif" alt="Smiley face" height="42" width="42" />
 {/if}
 
-<h1>WPM: {$race.wpm}</h1>
+{#if $race.status == 'started'}
+	<h1>WPM: {$race.wpm}</h1>
+{/if}
 
-<p>
-	{#each $race.text.split('') as item, i (i)}
-		<span
-			style="background-color: {i < $race.diffPos
-				? 'lightgreen'
-				: i < $race.currentCursorPos && $race.diffPos < $race.currentCursorPos
-				? 'red'
-				: 'white'};">{item}</span
-		>
-	{/each}
+<p class="text">
+	{#if $race.status != 'idle'}
+		{#each $race.text.split('') as item, i (i)}
+			<span
+				style="background-color: {i < $race.diffPos
+					? 'lightgreen'
+					: i < $race.currentCursorPos && $race.diffPos < $race.currentCursorPos
+					? 'red'
+					: 'white'};">{item}</span
+			>
+		{/each}
+	{/if}
 </p>
+
 <input bind:this={ref} bind:value={$race.userInput} disabled={!$race.isTyping} />
 
 <style>
 	input {
 		width: 60%;
 		resize: none;
+	}
+
+	.text {
+		font-size:2rem;
+		width: 80%;
+		height: auto;
 	}
 </style>
