@@ -21,7 +21,6 @@
 		<a href="/play">Start a Race</a>
 	</h1>
 
-
 	<ul>
 		<li>train individual weaknesses by selecting words from a sentence after the race</li>
 		<li>re-implement the word by word feature of typeRacer</li>

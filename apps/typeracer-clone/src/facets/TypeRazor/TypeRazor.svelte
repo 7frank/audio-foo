@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { createRace, type Race } from './store.svelte';
+	import ProgressBar from './ProgressBar.svelte';
+import { createRace, type Race } from './store.svelte';
 	import { loremIpsum } from './text';
 	import { findFirstDifference } from './utils';
 
@@ -85,6 +86,13 @@
 	<h1>WPM: {$race.wpm}</h1>
 {/if}
 
+
+<ProgressBar isBot={false} userName={"7frank"} progress={$race.diffPos/$race.text.length*100} ></ProgressBar>
+<ProgressBar/>
+<ProgressBar/>
+<ProgressBar/>
+<ProgressBar/>
+
 <p class="text">
 	{#if $race.status != 'idle'}
 		{#each $race.text.split('') as item, i (i)}
@@ -103,13 +111,19 @@
 
 <style>
 	input {
-		width: 60%;
+		width: 80%;
 		resize: none;
+		padding:.5em;
+		font-size: 2rem;
 	}
 
 	.text {
 		font-size: 2rem;
 		width: 80%;
 		height: auto;
+
+		border:1px solid grey;
+		padding:1em;
+		background-color:white
 	}
 </style>
