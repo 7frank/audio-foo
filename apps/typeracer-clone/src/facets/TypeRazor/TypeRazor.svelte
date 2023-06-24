@@ -69,19 +69,6 @@
 	}
 </script>
 
-{#if $race.status == 'idle'}
-	<h1>Typing Practice</h1>
-	<ul>
-		<li>train individual weaknesses by selecting words from a sentence after the race</li>
-		<li>re-implement the word by word feature of typeRacer</li>
-		<li>
-			implement the race track / progress bar and give it a "spin" some eye candy for sections where
-			your speed is increasing
-		</li>
-		<li>try to implement other type racer features later on</li>
-	</ul>
-{/if}
-
 {#if $race.status == 'countdown'}
 	<p>Race starts in {$race.countDown}</p>
 {/if}
@@ -121,7 +108,7 @@
 	}
 
 	.text {
-		font-size:2rem;
+		font-size: 2rem;
 		width: 80%;
 		height: auto;
 	}

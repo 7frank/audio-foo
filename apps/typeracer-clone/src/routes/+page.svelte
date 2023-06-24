@@ -1,12 +1,12 @@
 <script>
-	import Counter from './Counter.svelte';
+	import Counter from '../facets/TypeRazor/TypeRazor.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 </script>
 
 <svelte:head>
 	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<meta name="description" content="TypeRazor" />
 </svelte:head>
 
 <section>
@@ -17,9 +17,22 @@
 				<img src={welcome_fallback} alt="Welcome" />
 			</picture>
 		</span>
+		<h1>to TypeRazor</h1>
+		<a href="/play">Start a Race</a>
 	</h1>
 
-	<Counter />
+
+	<ul>
+		<li>train individual weaknesses by selecting words from a sentence after the race</li>
+		<li>re-implement the word by word feature of typeRacer</li>
+		<li>
+			implement the race track / progress bar and give it a "spin" some eye candy for sections where
+			your speed is increasing
+		</li>
+		<li>try to implement other type racer features later on</li>
+	</ul>
+
+
 </section>
 
 <style>

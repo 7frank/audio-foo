@@ -17,7 +17,10 @@
 		</svg>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Typeracer - Clone</a>
+				<a href="/">TypeRazor - Home</a>
+			</li>
+			<li aria-current={$page.url.pathname === '/play' ? 'page' : undefined}>
+				<a href="/play">Start a Race</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
