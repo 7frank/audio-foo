@@ -30,8 +30,6 @@
 		</li>
 		<li>try to implement other type racer features later on</li>
 	</ul>
-
-
 </section>
 
 <style>
