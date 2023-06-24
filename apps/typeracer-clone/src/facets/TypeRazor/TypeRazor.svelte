@@ -89,7 +89,7 @@
 	wpm={$race.wpm}
 />
 
-{#if $race.status == 'countdown' || $race.status == 'started'}
+{#if $race.status != 'idle' }
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
