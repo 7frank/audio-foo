@@ -10,7 +10,7 @@
 		wpm: number;
 		readonly text: string;
 		userInput: string;
-		succeeded: boolean;
+		status: "idle"|"countdown"|"started"|"paused"|"succeeded"|"aborted"|"failed";
 		countDown: number;
 		diffPos: number;
 		currentCursorPos: number;
@@ -26,7 +26,7 @@
 			text: text
 				.replace(/\s+/g, ' ') // Replace consecutive whitespace with a single space
 				.replace(/\s/g, ' '), // Convert other whitespace characters to spaces
-			succeeded: false,
+			status: "idle",
 
 			countDown: 0,
 			diffPos: 0,

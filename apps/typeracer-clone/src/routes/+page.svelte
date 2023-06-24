@@ -18,12 +18,10 @@
 			</picture>
 		</span>
 
-		to another approach to clone typeracer and add some features
+	
 	</h1>
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+
 
 	<Counter />
 </section>

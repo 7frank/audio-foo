@@ -1,9 +1,15 @@
 <script lang="ts">
 	import { createRace } from './store.svelte';
+	import { findFirstDifference } from './utils';
 
 	const race = createRace('Type the text here');
 
 	let ref: HTMLInputElement;
+
+	function focusInput() {
+		// focus fix
+		setTimeout(() => ref.focus(), 10);
+	}
 
 	function onCountDownTick() {
 		$race.countDown -= 0.05;
@@ -14,10 +20,9 @@
 			$race.interval = setInterval(() => run(), 50);
 			$race.userInput = '';
 
-			// focus fix
-			setTimeout(() => ref.focus(), 10);
+			focusInput();
 
-			$race.succeeded = false;
+			$race.status = "started";
 
 			clearInterval($race.countDownTimerId);
 		}
@@ -25,6 +30,9 @@
 
 	function start() {
 		$race.countDown = 3;
+
+		$race.status = "countdown";
+
 		$race.countDownTimerId = setInterval(onCountDownTick, 50);
 	}
 
@@ -34,7 +42,7 @@
 			$race.endTime = new Date();
 			clearInterval($race.interval!);
 			calculateWPM($race.endTime);
-			$race.succeeded = true;
+			$race.status = "succeeded";
 		}
 	}
 
@@ -57,26 +65,12 @@
 
 		$race.wpm = Math.round($race.diffPos / (timeInSeconds / 5));
 	}
-
-	function findFirstDifference(text1: string, text2: string) {
-		const length = Math.min(text1.length, text2.length);
-
-		for (let i = 0; i < length; i++) {
-			if (text1[i] !== text2[i]) {
-				return { diffPos: i, isSame: false };
-			}
-		}
-
-		// If the loop completes without finding a difference,
-		// check if the lengths of the texts are different
-		if (text1.length !== text2.length) {
-			return { diffPos: length, isSame: false };
-		}
-
-		// If the lengths and all characters are the same, return -1
-		return { diffPos: length, isSame: true };
-	}
 </script>
+
+
+{#if $race.status=="idle"}
+
+
 
 <h1>Typing Practice</h1>
 <ul>
@@ -89,13 +83,15 @@
 	<li>try to implement other type racer features later on</li>
 </ul>
 
+{/if}
+
 {#if $race.countDown > 0}
 	<p>Race starts in {$race.countDown}</p>
 {:else}
 	<button on:click={() => start()}>Start Race</button>
 {/if}
 
-{#if $race.succeeded}
+{#if $race.status=="succeeded"}
 	<img src="https://www.w3schools.com/tags/smiley.gif" alt="Smiley face" height="42" width="42" />
 {/if}
 
