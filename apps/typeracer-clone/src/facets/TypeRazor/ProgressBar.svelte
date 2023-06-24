@@ -9,7 +9,7 @@
 
 	export let progress = 0;
 
-	export let isBot = true;
+	export let isBotEnabled = false;
 
 	export let userName = 'Bot' + getRandomInt(2, 8);
 	export let wpm = getRandomInt(40, 60);
@@ -17,11 +17,12 @@
 	let interval: NodeJS.Timeout;
 
 	onMount(() => {
-		if (isBot)
-			interval = setInterval(() => {
-				progress += 1;
-				if (progress >= 100) clearInterval(interval);
-			}, 10 * wpm);
+		interval = setInterval(() => {
+			if (!isBotEnabled) return;
+
+			progress += 1;
+			if (progress >= 100) clearInterval(interval);
+		}, 10 * wpm);
 	});
 
 	onDestroy(() => {
@@ -29,31 +30,61 @@
 	});
 </script>
 
-<div class="progress-bar">
-	<div class="progress" style="position:relative ; width: {progress}%;">
-		<span style="position:absolute;left:0;">{userName}</span>
-		<img
-			style="position:absolute;right:0;"
-			alt="razor"
-			src="https://i.giphy.com/media/vNqgL8Rv3Qta5rFB9s/giphy.webp"
-			height="24px"
-		/>
+<main>
+	<div class="progress-bar">
+		<div class="progress" style="width: {progress}%;">
+			<span>{userName}</span>
+			<img alt="razor" src="https://i.giphy.com/media/vNqgL8Rv3Qta5rFB9s/giphy.webp" />
+		</div>
 	</div>
-</div>
+	<span class="wpm">{wpm} wpm</span>
+</main>
 
-<style>
+<style lang="scss">
+	main {
+		display: flex;
+		flex-direction: row;
+		width: calc(100% - 2em);
+		margin-right: 2em;
+	}
+
 	.progress-bar {
-		width: 100%;
+		display: flex;
+		flex-direction: row;
+		overflow: visible;
+		width: calc(100% - 10em);
+		margin-left: 10em;
 		height: 3em;
 		background-color: #f2f2f2;
 		border-radius: 10px;
-		overflow: hidden;
+
 		margin-bottom: 0.5em;
 	}
 
+	.wpm {
+		padding: 0.5em;
+		margin-left: auto;
+		white-space: nowrap;
+		width: 3em;
+	}
 	.progress {
+		overflow: visible;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
 		height: 100%;
-		background-color: #47b2ff;
+		border-bottom: 3px solid #47b2ff;
 		transition: width 0.3s ease-in-out;
+
+		& > span {
+			font-weight: bold;
+			margin: 0.5em;
+		}
+
+		& > img {
+			border: 1px solid grey;
+			margin: 0.5em;
+			transform: scale(1.5) rotate(90deg);
+		}
 	}
 </style>

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import ProgressBar from './ProgressBar.svelte';
 	import { createRace, type Race } from './store.svelte';
-	import { loremIpsum } from './text';
+	import { loremIpsum, stuff } from './text';
 	import { findFirstDifference } from './utils';
 
-	const race = createRace(loremIpsum);
+	const race = createRace(stuff.content);
 
 	let ref: HTMLInputElement;
 
@@ -82,19 +82,19 @@
 	<img src="https://www.w3schools.com/tags/smiley.gif" alt="Smiley face" height="42" width="42" />
 {/if}
 
-{#if $race.status == 'started'}
-	<h1>WPM: {$race.wpm}</h1>
-{/if}
-
 <ProgressBar
-	isBot={false}
+	isBotEnabled={false}
 	userName={'7frank'}
 	progress={($race.diffPos / $race.text.length) * 100}
+	wpm={$race.wpm}
 />
-<ProgressBar />
-<ProgressBar />
-<ProgressBar />
-<ProgressBar />
+
+{#if $race.status == 'countdown' || $race.status == 'started'}
+	<ProgressBar isBotEnabled={$race.status == 'started'} />
+	<ProgressBar isBotEnabled={$race.status == 'started'} />
+	<ProgressBar isBotEnabled={$race.status == 'started'} />
+	<ProgressBar isBotEnabled={true} />
+{/if}
 
 <p class="text">
 	{#if $race.status != 'idle'}

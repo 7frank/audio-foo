@@ -1,5 +1,5 @@
 <script>
-	import Counter from '../../facets/TypeRazor/TypeRazor.svelte';
+	import TypeRazor from '../../facets/TypeRazor/TypeRazor.svelte';
 </script>
 
 <svelte:head>
@@ -8,7 +8,7 @@
 </svelte:head>
 
 <section>
-	<Counter />
+	<TypeRazor />
 </section>
 
 <style>
