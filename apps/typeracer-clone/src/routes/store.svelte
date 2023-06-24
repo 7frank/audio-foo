@@ -1,3 +1,4 @@
+<script lang="ts"  context="module">
 import { writable } from 'svelte/store';
 
 interface Race {
@@ -8,6 +9,8 @@ interface Race {
 	wpm: number;
 	readonly text: string;
 	userInput: string;
+	succeeded:boolean;
+    countDown:number;
 }
 
 export function createRace(text: string) {
@@ -20,8 +23,14 @@ export function createRace(text: string) {
 		wpm: 0,
 		text: text
 			.replace(/\s+/g, ' ') // Replace consecutive whitespace with a single space
-			.replace(/\s/g, ' ') // Convert other whitespace characters to spaces
+			.replace(/\s/g, ' '), // Convert other whitespace characters to spaces
+		succeeded:false, 
+
+   		countDown:0
 	});
 
 	return store;
 }
+
+
+</script>

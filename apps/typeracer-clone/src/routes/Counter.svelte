@@ -1,23 +1,21 @@
 <script lang="ts">
-	import { createRace } from "./store";
+	import { createRace } from "./store.svelte";
 
 	const race= createRace("Type the text here");
     
 	let diffPos=0
     let currentCursorPos=0
 	let ref:HTMLInputElement;
-    let succeeded=false 
-
-	let countDown=0
+  
 	
     function start() {
-		countDown=3;
+		$race.countDown=3;
 		
 
 		const timerId=setInterval(()=>{
-			countDown-=0.05
+			$race.countDown-=0.05
 			
-			if (!$race. isTyping && countDown<=0) {
+			if (!$race. isTyping && $race.countDown<=0) {
               
 			  $race.isTyping = true;
 			  $race.startTime = new Date();
@@ -25,7 +23,7 @@
 			  $race.userInput = "";
 			  setTimeout(() => ref.focus(), 10);
 
-			  succeeded=false
+			  $race.succeeded=false
 
 			  clearInterval(timerId)
           }
@@ -41,7 +39,7 @@
             $race.endTime = new Date();
             clearInterval($race.interval!);
             calculateWPM($race.endTime);
-			succeeded=true
+			$race.succeeded=true
           }
         }
       
@@ -108,13 +106,13 @@
   </ul>
  
   
-  {#if countDown>0}
-  <p>Race starts in {countDown}</p>
+  {#if $race.countDown>0}
+  <p>Race starts in {$race.countDown}</p>
   {:else}
   <button on:click={()=>start()} >Start Race</button>
   {/if}
 
-   {#if succeeded}
+   {#if $race.succeeded}
    <img src="https://www.w3schools.com/tags/smiley.gif" alt="Smiley face" height="42" width="42">
    {/if}
    
