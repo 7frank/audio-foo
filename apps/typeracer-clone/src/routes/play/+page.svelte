@@ -1,4 +1,5 @@
 <script>
+	import Bg from '../../components/Bg.svelte';
 	import TypeRazor from '../../facets/TypeRazor/TypeRazor.svelte';
 </script>
 
@@ -6,6 +7,8 @@
 	<title>Home</title>
 	<meta name="description" content="TypeRazor" />
 </svelte:head>
+
+<Bg/>
 
 <section>
 	<TypeRazor />

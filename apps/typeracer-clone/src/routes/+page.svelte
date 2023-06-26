@@ -1,12 +1,16 @@
 <script>
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import bgImage from '$lib/images/desert.jpeg';
+	import Bg from '../components/Bg.svelte';
 </script>
 
 <svelte:head>
 	<title>Home</title>
 	<meta name="description" content="TypeRazor" />
 </svelte:head>
+
+<Bg src="{bgImage}"/>
 
 <section>
 	<h1>
