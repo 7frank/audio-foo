@@ -14,7 +14,7 @@
 	export let isStreetAnimated = false;
 
 	export let userName = 'Bot' + getRandomInt(2, 8);
-	export let wpm = getRandomInt(40, 60);
+	export let wpm = getRandomInt(30, 70);
 
 	let interval: NodeJS.Timeout;
 

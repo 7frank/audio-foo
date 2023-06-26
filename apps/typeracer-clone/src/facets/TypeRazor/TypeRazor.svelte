@@ -1,12 +1,13 @@
 <script lang="ts">
-	import CountDown from './CountDown.svelte';
+	import ResultChart from '../../components/ResultChart.svelte';
+import CountDown from './CountDown.svelte';
 	import ProgressBar from './ProgressBar.svelte';
 	import { createRace, type Race } from './store.svelte';
 	import { loremIpsum, stuff } from './text';
 	import { findFirstDifference } from './utils';
 
 	function getText() {
-		//return "Foo"
+		return 'Foo';
 		return stuff.content;
 	}
 
@@ -19,10 +20,10 @@
 		setTimeout(() => ref.focus(), 10);
 	}
 
-	function onCountDownTick() {
-		const fps = 60;
-		const updateInterval = 1000 / fps;
+	const fps = 60;
+	const updateInterval = 1000 / fps;
 
+	function onCountDownTick() {
 		$race.countDown -= 1 / fps;
 
 		if (!$race.isTyping && $race.countDown <= 0) {
@@ -39,10 +40,21 @@
 		}
 	}
 
-	function start() {
+	function delay(time: number) {
+		return new Promise((resolve, reject) => {
+			setTimeout(resolve, time);
+		});
+	}
+
+	async function start() {
+		$race.status = 'idle';
+		$race.diffPos = 0;
+		$race.wpm = 0;
+		await delay(50);
+
 		$race.countDown = 3;
 		$race.status = 'countdown';
-		$race.countDownTimerId = setInterval(onCountDownTick, 50);
+		$race.countDownTimerId = setInterval(onCountDownTick, updateInterval);
 	}
 
 	function stop(reason: Race['status']) {
@@ -160,6 +172,9 @@
 		{/if}
 	</p>
 	<input bind:this={ref} bind:value={$race.userInput} disabled={!$race.isTyping} />
+
+<ResultChart></ResultChart>
+
 </div>
 
 <style>
