@@ -9,15 +9,14 @@
 
 	onMount(() => {
 		ref.volume = 0.2;
-       
-        const len= typeof src == 'string' ?1:src.length
 
-const randomIndex = Math.floor(Math.random() * len);
+		const len = typeof src == 'string' ? 1 : src.length;
 
-         const el=ref.querySelectorAll("source")[randomIndex]
-         ref.src = el.src;
-         ref.play();
+		const randomIndex = Math.floor(Math.random() * len);
 
+		const el = ref.querySelectorAll('source')[randomIndex];
+		ref.src = el.src;
+		ref.play();
 	});
 </script>
 
