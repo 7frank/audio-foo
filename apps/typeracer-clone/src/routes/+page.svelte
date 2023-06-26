@@ -1,5 +1,4 @@
 <script>
-	import Counter from '../facets/TypeRazor/TypeRazor.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 </script>
@@ -29,6 +28,8 @@
 			your speed is increasing
 		</li>
 		<li>try to implement other type racer features later on</li>
+		<li>https://www.gutenberg.org/ebooks/7849</li>
+		<li>https://gutendex.com/</li>
 	</ul>
 </section>
 

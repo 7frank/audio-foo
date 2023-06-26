@@ -4,7 +4,12 @@
 	import { loremIpsum, stuff } from './text';
 	import { findFirstDifference } from './utils';
 
-	const race = createRace(stuff.content);
+	function getText() {
+		//return "Foo"
+		return stuff.content;
+	}
+
+	const race = createRace(getText());
 
 	let ref: HTMLInputElement;
 
@@ -32,9 +37,7 @@
 
 	function start() {
 		$race.countDown = 3;
-
 		$race.status = 'countdown';
-
 		$race.countDownTimerId = setInterval(onCountDownTick, 50);
 	}
 
@@ -64,9 +67,11 @@
 	}
 
 	function calculateWPM(t: Date) {
-		const timeInSeconds = (t.getTime() - $race.startTime.getTime()) / 1000;
+		const millisecondsElapsed = t.getTime() - $race.startTime.getTime();
+		const minutesElapsed = millisecondsElapsed / (1000 * 60);
+		const wordsTyped = $race.diffPos / 5; // Assuming an average word length of 5 characters
 
-		$race.wpm = Math.round($race.diffPos / (timeInSeconds / 5));
+		$race.wpm = Math.round(wordsTyped / minutesElapsed);
 	}
 </script>
 
@@ -89,7 +94,7 @@
 	wpm={$race.wpm}
 />
 
-{#if $race.status != 'idle' }
+{#if $race.status != 'idle'}
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
