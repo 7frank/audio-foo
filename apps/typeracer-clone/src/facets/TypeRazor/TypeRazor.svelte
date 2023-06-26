@@ -76,12 +76,16 @@
 	}
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Racing Sans One" />
+</svelte:head>
+
 {#if $race.status == 'countdown'}
 	<div class="box">
 		<CountDown>
-			<div class="counter">
+			<h1 class="racing">
 				Race starts in {(Math.round($race.countDown * 100) / 100).toFixed(2)}
-			</div>
+			</h1>
 		</CountDown>
 	</div>
 {/if}
@@ -105,7 +109,7 @@
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
 	<ProgressBar isBotEnabled={$race.status == 'started'} />
-	<ProgressBar isBotEnabled={true} />
+	<ProgressBar isBotEnabled={$race.status == 'started'} />
 {/if}
 
 <p class="text">
@@ -147,7 +151,7 @@
 		top: 3em;
 	}
 
-	.counter {
-		font-size: 3em;
+	.racing {
+		font-family: 'Racing Sans One', sans-serif;
 	}
 </style>
