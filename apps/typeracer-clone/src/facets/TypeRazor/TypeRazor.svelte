@@ -1,13 +1,13 @@
 <script lang="ts">
 	import ResultChart from '../../components/ResultChart.svelte';
-import CountDown from './CountDown.svelte';
+	import CountDown from './CountDown.svelte';
 	import ProgressBar from './ProgressBar.svelte';
 	import { createRace, type Race } from './store.svelte';
 	import { loremIpsum, stuff } from './text';
 	import { findFirstDifference } from './utils';
 
 	function getText() {
-		return 'Foo';
+		// return 'Foo';
 		return stuff.content;
 	}
 
@@ -173,8 +173,7 @@ import CountDown from './CountDown.svelte';
 	</p>
 	<input bind:this={ref} bind:value={$race.userInput} disabled={!$race.isTyping} />
 
-<ResultChart></ResultChart>
-
+	<ResultChart />
 </div>
 
 <style>
