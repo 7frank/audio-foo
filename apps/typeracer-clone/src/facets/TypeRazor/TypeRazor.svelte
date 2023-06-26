@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CountDown from './CountDown.svelte';
 	import ProgressBar from './ProgressBar.svelte';
 	import { createRace, type Race } from './store.svelte';
 	import { loremIpsum, stuff } from './text';
@@ -76,7 +77,13 @@
 </script>
 
 {#if $race.status == 'countdown'}
-	<p>Race starts in {$race.countDown}</p>
+	<div class="box">
+		<CountDown>
+			<div class="counter">
+				Race starts in {(Math.round($race.countDown * 100) / 100).toFixed(2)}
+			</div>
+		</CountDown>
+	</div>
 {/if}
 
 {#if $race.status == 'idle' || $race.status == 'succeeded' || $race.status == 'failed' || $race.status == 'aborted'}
@@ -133,5 +140,14 @@
 		border: 1px solid grey;
 		padding: 1em;
 		background-color: white;
+	}
+
+	.box {
+		position: absolute;
+		top: 3em;
+	}
+
+	.counter {
+		font-size: 3em;
 	}
 </style>
