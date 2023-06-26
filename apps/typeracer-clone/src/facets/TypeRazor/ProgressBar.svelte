@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
+	import Street from '../../components/Street.svelte';
 
 	function getRandomInt(min: number, max: number) {
 		min = Math.ceil(min);
@@ -10,6 +11,7 @@
 	export let progress = 0;
 
 	export let isBotEnabled = false;
+	export let isStreetAnimated = false;
 
 	export let userName = 'Bot' + getRandomInt(2, 8);
 	export let wpm = getRandomInt(40, 60);
@@ -32,10 +34,12 @@
 
 <main>
 	<div class="progress-bar">
-		<div class="progress" style="width: {progress}%;">
-			<span>{userName}</span>
-			<img alt="razor" src="https://i.giphy.com/media/vNqgL8Rv3Qta5rFB9s/giphy.webp" />
-		</div>
+		<Street speed={isStreetAnimated ? wpm / 5 : 0}>
+			<div class="progress" style="width: {progress}%;">
+				<span>{userName}</span>
+				<img alt="razor" src="https://i.giphy.com/media/vNqgL8Rv3Qta5rFB9s/giphy.webp" />
+			</div>
+		</Street>
 	</div>
 	<span class="wpm">{wpm} wpm</span>
 </main>

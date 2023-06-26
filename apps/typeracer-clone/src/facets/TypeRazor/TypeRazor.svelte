@@ -118,13 +118,26 @@
 	userName={'7frank'}
 	progress={($race.diffPos / $race.text.length) * 100}
 	wpm={$race.wpm}
+	isStreetAnimated={$race.status == 'started'}
 />
 
 {#if $race.status != 'idle'}
-	<ProgressBar isBotEnabled={$race.status == 'started'} />
-	<ProgressBar isBotEnabled={$race.status == 'started'} />
-	<ProgressBar isBotEnabled={$race.status == 'started'} />
-	<ProgressBar isBotEnabled={$race.status == 'started'} />
+	<ProgressBar
+		isBotEnabled={$race.status == 'started'}
+		isStreetAnimated={$race.status == 'started'}
+	/>
+	<ProgressBar
+		isBotEnabled={$race.status == 'started'}
+		isStreetAnimated={$race.status == 'started'}
+	/>
+	<ProgressBar
+		isBotEnabled={$race.status == 'started'}
+		isStreetAnimated={$race.status == 'started'}
+	/>
+	<ProgressBar
+		isBotEnabled={$race.status == 'started'}
+		isStreetAnimated={$race.status == 'started'}
+	/>
 {/if}
 
 <p class="text">
@@ -140,20 +153,20 @@
 		{/each}
 	{/if}
 </p>
-
 <input bind:this={ref} bind:value={$race.userInput} disabled={!$race.isTyping} />
 
 <style>
 	input {
-		width: 80%;
+		width: 90%;
 		resize: none;
 		padding: 0.5em;
 		font-size: 2rem;
+		margin: 0 12.5em;
 	}
 
 	.text {
 		font-size: 2rem;
-		width: 80%;
+		width: 90%;
 		height: auto;
 
 		border: 1px solid grey;
@@ -167,6 +180,8 @@
 	}
 
 	.racing {
+		margin: 1em;
+		font-size: 2em;
 		font-family: 'Racing Sans One', sans-serif;
 	}
 
