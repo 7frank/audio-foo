@@ -3,6 +3,12 @@
 	import welcome_fallback from '$lib/images/svelte-welcome.png';
 	import bgImage from '$lib/images/desert.jpeg';
 	import Bg from '../components/Bg.svelte';
+	import AudioPlayer from '../components/AudioPlayer.svelte';
+
+	const bgAudioSources = [
+		'https://www.fesliyanstudios.com/musicfiles/2020-03-22_-_8_Bit_Surf_-_FesliyanStudios.com_-_David_Renda/2020-03-22_-_8_Bit_Surf_-_FesliyanStudios.com_-_David_Renda.mp3',
+		'https://www.fesliyanstudios.com/musicfiles/2021-08-30_-_Boss_Time_-_www.FesliyanStudios.com/1min-2021-08-30_-_Boss_Time_-_www.FesliyanStudios.com.mp3'
+	];
 </script>
 
 <svelte:head>
@@ -10,8 +16,8 @@
 	<meta name="description" content="TypeRazor" />
 </svelte:head>
 
-<Bg src="{bgImage}"/>
-
+<Bg src={bgImage} />
+<AudioPlayer src={bgAudioSources} />
 <section>
 	<h1>
 		<span class="welcome">
