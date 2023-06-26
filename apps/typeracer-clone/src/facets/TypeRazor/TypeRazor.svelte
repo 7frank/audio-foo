@@ -20,12 +20,15 @@
 	}
 
 	function onCountDownTick() {
-		$race.countDown -= 0.05;
+		const fps = 60;
+		const updateInterval = 1000 / fps;
+
+		$race.countDown -= 1 / fps;
 
 		if (!$race.isTyping && $race.countDown <= 0) {
 			$race.isTyping = true;
 			$race.startTime = new Date();
-			$race.interval = setInterval(() => run(), 50);
+			$race.interval = setInterval(() => run(), updateInterval);
 			$race.userInput = '';
 
 			focusInput();
@@ -69,6 +72,8 @@
 
 	function calculateWPM(t: Date) {
 		const millisecondsElapsed = t.getTime() - $race.startTime.getTime();
+		$race.elapsedMs = millisecondsElapsed;
+
 		const minutesElapsed = millisecondsElapsed / (1000 * 60);
 		const wordsTyped = $race.diffPos / 5; // Assuming an average word length of 5 characters
 
@@ -89,9 +94,19 @@
 		</CountDown>
 	</div>
 {/if}
+{#if $race.status == 'started' && $race.elapsedMs < 1000}
+	<div
+		class="box"
+		style="transform: scale({1 + $race.elapsedMs / 1000}); opacity:{1 - $race.elapsedMs / 1000}"
+	>
+		<CountDown>
+			<h1 class="racing">GO!!</h1>
+		</CountDown>
+	</div>
+{/if}
 
 {#if $race.status == 'idle' || $race.status == 'succeeded' || $race.status == 'failed' || $race.status == 'aborted'}
-	<button on:click={() => start()}>Start a new Race</button>
+	<button class="racing" on:click={() => start()}>Start a new Race</button>
 {/if}
 
 {#if $race.status == 'succeeded'}
@@ -153,5 +168,9 @@
 
 	.racing {
 		font-family: 'Racing Sans One', sans-serif;
+	}
+
+	button {
+		padding: 0.5em;
 	}
 </style>

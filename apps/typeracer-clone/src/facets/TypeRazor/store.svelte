@@ -5,6 +5,7 @@
 		interval?: NodeJS.Timeout;
 		countDownTimerId?: NodeJS.Timeout;
 		startTime: Date;
+		elapsedMs: number;
 		endTime: Date;
 		isTyping: boolean;
 		wpm: number;
@@ -19,6 +20,7 @@
 	export function createRace(text: string) {
 		const store = writable<Race>({
 			startTime: new Date(),
+			elapsedMs: 0,
 			endTime: new Date(),
 			userInput: '',
 			isTyping: false,
