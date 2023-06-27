@@ -2,12 +2,12 @@
 	import ResultChart from '../../components/ResultChart.svelte';
 	import CountDown from './CountDown.svelte';
 	import ProgressBar from './ProgressBar.svelte';
-	import { createRace, type Race } from './store.svelte';
+	import { Race } from './store';
 	import { loremIpsum, stuff } from './text';
 	import { loadRandomQuote } from './textStore';
 	import { findFirstDifference } from './utils';
 
-	const race = createRace();
+	const race = new Race();
 
 	let ref: HTMLInputElement;
 
