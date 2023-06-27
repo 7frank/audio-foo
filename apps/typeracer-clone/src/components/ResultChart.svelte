@@ -67,11 +67,11 @@
 		for (let i = 1; i < ks.length; i++) {
 			const timeDiff = ks[i].timestamp - ks[i - 1].timestamp;
 			data.labels.push(ks[i].key);
-		
-			if (timeDiff<0) break;
-		
-			const renderTime= (timeDiff) / 1000
-			
+
+			if (timeDiff < 0) break;
+
+			const renderTime = timeDiff / 1000;
+
 			data.datasets[0].data.push(renderTime);
 		}
 
@@ -81,8 +81,8 @@
 			data,
 			options: {
 				animation: {
-        duration: 0
-    },
+					duration: 0
+				},
 				scales: {
 					y: {
 						title: {

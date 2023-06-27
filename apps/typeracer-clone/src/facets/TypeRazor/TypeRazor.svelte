@@ -1,23 +1,18 @@
 <script lang="ts">
 	import ResultChart from '../../components/ResultChart.svelte';
 	import CountDown from './CountDown.svelte';
+	import { IQuoteLoader } from './IQuoteLoader';
 	import ProgressBar from './ProgressBar.svelte';
-	import { IQuoteLoader, Race } from './store';
-
+	import { Race } from './Race';
 
 	const race = new Race(new IQuoteLoader());
+	// TODO constructor is currently not initializing
+	race.reset();
 
 	let ref: HTMLInputElement;
 
-	function focusInput() {
-		// focus fix
-		setTimeout(() => ref.focus(), 10);
-	}
-	$race.reset()
-
-
-
-
+	// TODO is this a proper way to run effects?
+	$: $race.status && setTimeout(() => ref?.focus(), 10);
 </script>
 
 <svelte:head>

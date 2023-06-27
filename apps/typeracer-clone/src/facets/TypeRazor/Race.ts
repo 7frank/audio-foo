@@ -1,19 +1,9 @@
 import { reactive } from './reactive';
 import { delay, findFirstDifference } from './utils';
-import { loadRandomQuoteAdapter, type Quote } from './loadRandomQuoteAdapter';
+import type { IQuoteLoader } from './IQuoteLoader';
 
 const fps = 60;
 const updateInterval = 1000 / fps;
-
-export class IQuoteLoader {
-	async loadRandomQuote(): Promise<Quote> {
-		const quote = await loadRandomQuoteAdapter();
-		quote.content = quote.content
-			.replace(/\s+/g, ' ') // Replace consecutive whitespace with a single space
-			.replace(/\s/g, ' '); // Convert other whitespace characters to spaces
-		return quote;
-	}
-}
 
 @reactive()
 export class Race {
