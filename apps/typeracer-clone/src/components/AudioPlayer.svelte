@@ -8,7 +8,7 @@
 	let ref: HTMLAudioElement;
 
 	onMount(() => {
-		ref.volume = 0.2;
+		ref.volume = 0.05;
 
 		const len = typeof src == 'string' ? 1 : src.length;
 

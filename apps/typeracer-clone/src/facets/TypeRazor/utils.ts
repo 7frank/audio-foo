@@ -16,3 +16,8 @@ export function findFirstDifference(text1: string, text2: string) {
 	// If the lengths and all characters are the same, return -1
 	return { diffPos: length, isSame: true };
 }
+export function getRandomInt(min: number, max: number) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}

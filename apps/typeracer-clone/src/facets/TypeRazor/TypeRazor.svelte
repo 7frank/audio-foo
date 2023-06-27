@@ -4,14 +4,11 @@
 	import ProgressBar from './ProgressBar.svelte';
 	import { createRace, type Race } from './store.svelte';
 	import { loremIpsum, stuff } from './text';
+	import { loadRandomQuote } from './textStore';
 	import { findFirstDifference } from './utils';
 
-	function getText() {
-		// return 'Foo';
-		return stuff.content;
-	}
 
-	const race = createRace(getText());
+	const race = createRace();
 
 	let ref: HTMLInputElement;
 
@@ -47,6 +44,9 @@
 	}
 
 	async function start() {
+
+		loadMoreText()
+
 		$race.status = 'idle';
 		$race.diffPos = 0;
 		$race.wpm = 0;
@@ -91,6 +91,30 @@
 
 		$race.wpm = Math.round(wordsTyped / minutesElapsed);
 	}
+
+
+	async function getText() {
+		 
+		 return loadRandomQuote()
+		 //return 'Foo';
+		 //return stuff.content;
+	 }
+
+
+	 async function loadMoreText(){
+
+		const text=await getText()
+		$race.text=text.content
+				 .replace(/\s+/g, ' ') // Replace consecutive whitespace with a single space
+				 .replace(/\s/g, ' ') // Convert other whitespace characters to spaces
+
+	 }
+ 
+ 
+	
+ 
+
+
 </script>
 
 <svelte:head>
@@ -182,6 +206,7 @@
 		padding: 0.5em;
 		font-size: 2rem;
 		margin: 0 0em;
+		margin-bottom: 1em;;
 	}
 
 	.text {

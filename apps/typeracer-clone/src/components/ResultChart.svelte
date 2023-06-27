@@ -12,7 +12,11 @@
 	let mChart: Chart;
 
 	function handleKeyDown(event: KeyboardEvent) {
+
 		const key = event.key;
+
+		if (key.length>1) return // we ignore "control" keys
+
 		const timestamp = new Date().getTime();
 		keystrokes.push({ key, timestamp });
 		renderChart();
@@ -63,7 +67,7 @@
 		};
 
 		const ks = combineWordKeystrokes(keystrokes);
-		console.log(ks);
+	
 		for (let i = 1; i < ks.length; i++) {
 			const timeDiff = ks[i].timestamp - ks[i - 1].timestamp;
 			data.labels.push(ks[i].key);

@@ -9,7 +9,7 @@
 		endTime: Date;
 		isTyping: boolean;
 		wpm: number;
-		readonly text: string;
+		text: string;
 		userInput: string;
 		status: 'idle' | 'countdown' | 'started' | 'paused' | 'succeeded' | 'aborted' | 'failed';
 		countDown: number;
@@ -17,7 +17,7 @@
 		currentCursorPos: number;
 	}
 
-	export function createRace(text: string) {
+	export function createRace() {
 		const store = writable<Race>({
 			startTime: new Date(),
 			elapsedMs: 0,
@@ -25,9 +25,7 @@
 			userInput: '',
 			isTyping: false,
 			wpm: 0,
-			text: text
-				.replace(/\s+/g, ' ') // Replace consecutive whitespace with a single space
-				.replace(/\s/g, ' '), // Convert other whitespace characters to spaces
+			text:"-empty-",
 			status: 'idle',
 
 			countDown: 0,

@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import Street from '../../components/Street.svelte';
+	import { getRandomInt } from './utils';
 
-	function getRandomInt(min: number, max: number) {
-		min = Math.ceil(min);
-		max = Math.floor(max);
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-	}
+
 
 	export let progress = 0;
 
