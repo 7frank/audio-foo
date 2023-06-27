@@ -3,15 +3,17 @@
 </script>
 
 History:
-<table>
-	<tr>
+<div class="table-container">
+<table class="table table-hover">
+	<thead>	<tr>
 		<th>id</th>
 		<th>createdAt</th>
 		<th>textId</th>
 		<th>author</th>
 		<th>wpm</th>
 		<th />
-	</tr>
+	</tr></thead>
+	<tbody>
 	{#each $racingStore.history as entry, i (i)}
 		<tr>
 			<td>{i}</td>
@@ -22,7 +24,8 @@ History:
 			<td><a href="/play/{entry._id}">Try Again</a></td>
 		</tr>
 	{/each}
-</table>
+</tbody>
+</table></div>
 
 
 <style>

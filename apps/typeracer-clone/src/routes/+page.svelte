@@ -19,17 +19,17 @@
 <Bg src={bgImage} />
 <AudioPlayer src={bgAudioSources} />
 <section>
-	<h1>
-		<span class="welcome">
+	
+		<div class="welcome" style="height:250px">
 			<picture>
 				<source srcset={welcome} type="image/webp" />
 				<img src={welcome_fallback} alt="Welcome" />
 			</picture>
-		</span>
-		<h1>to TypeRazor</h1>
-		<a href="/play/random">Start a Race</a>
-	</h1>
-
+		</div>
+		<h1 class="h1 racing">- to TypeRazor - </h1>
+		<a class="h1 mt-20 mb-10 racing" href="/play/random">Start a Race</a>
+	
+		<div class="card p-4 opacity-80">
 	<ul>
 		<li>train individual weaknesses by selecting words from a sentence after the race</li>
 		<li>re-implement the word by word feature of typeRacer</li>
@@ -41,10 +41,12 @@
 		<li>https://www.gutenberg.org/ebooks/7849</li>
 		<li>https://gutendex.com/</li>
 	</ul>
+</div>
 </section>
 
 <style>
 	section {
+		user-select: none;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -52,23 +54,25 @@
 		flex: 0.6;
 	}
 
-	h1 {
-		width: 100%;
-	}
-
 	.welcome {
+		pointer-events: none;
 		display: block;
 		position: relative;
 		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
+		
+		padding: 0 0 0 0;
 	}
 
 	.welcome img {
-		position: absolute;
+		position: relative;
 		width: 100%;
-		height: 100%;
-		top: 0;
+		
+		
 		display: block;
 	}
+	.racing {
+		
+		font-family: 'Racing Sans One', sans-serif;
+	}
+
 </style>
