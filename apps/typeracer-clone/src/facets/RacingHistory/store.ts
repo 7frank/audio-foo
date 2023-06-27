@@ -20,9 +20,11 @@ const RacingStore = z.object({
 export type RacingStore = z.infer<typeof RacingStore>;
 export type History = z.infer<typeof History>;
 
+const defaultStore = { history: [] } satisfies RacingStore;
+
 const fromStore =
-	(browser && JSON.parse(window.localStorage.getItem('store') ?? '')) ||
-	({ history: [] } satisfies RacingStore);
+	(browser && JSON.parse(window.localStorage.getItem('store') ?? JSON.stringify(defaultStore))) ||
+	defaultStore;
 console.log(fromStore);
 export const racingStore = writable<RacingStore>(RacingStore.parse(fromStore));
 
