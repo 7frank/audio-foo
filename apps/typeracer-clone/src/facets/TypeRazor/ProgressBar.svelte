@@ -3,8 +3,6 @@
 	import Street from '../../components/Street.svelte';
 	import { getRandomInt } from './utils';
 
-
-
 	export let progress = 0;
 
 	export let isBotEnabled = false;

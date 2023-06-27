@@ -12,10 +12,9 @@
 	let mChart: Chart;
 
 	function handleKeyDown(event: KeyboardEvent) {
-
 		const key = event.key;
 
-		if (key.length>1) return // we ignore "control" keys
+		if (key.length > 1) return; // we ignore "control" keys
 
 		const timestamp = new Date().getTime();
 		keystrokes.push({ key, timestamp });
@@ -30,17 +29,14 @@
 		const firstTimestamp = keystrokes[0].timestamp;
 
 		for (const { key, timestamp } of keystrokes) {
-			const relativeTimestamp = timestamp - firstTimestamp;
-
 			if (key === ' ') {
 				if (currentWord !== '') {
-					wordKeystrokes.push({ key: currentWord, timestamp: accumulatedTime });
+					const relativeTimestamp = timestamp - firstTimestamp;
+					wordKeystrokes.push({ key: currentWord, timestamp: relativeTimestamp });
 					currentWord = '';
-					accumulatedTime = 0;
 				}
 			} else {
 				currentWord += key;
-				accumulatedTime += relativeTimestamp;
 			}
 		}
 
@@ -67,11 +63,16 @@
 		};
 
 		const ks = combineWordKeystrokes(keystrokes);
-	
+
 		for (let i = 1; i < ks.length; i++) {
 			const timeDiff = ks[i].timestamp - ks[i - 1].timestamp;
 			data.labels.push(ks[i].key);
-			data.datasets[0].data.push(timeDiff);
+		
+			if (timeDiff<0) break;
+		
+			const renderTime= (timeDiff) / 1000
+			
+			data.datasets[0].data.push(renderTime);
 		}
 
 		const ctx = document.getElementById('chart') as HTMLCanvasElement;
@@ -79,11 +80,14 @@
 			type: 'line',
 			data,
 			options: {
+				animation: {
+        duration: 0
+    },
 				scales: {
 					y: {
 						title: {
 							display: true,
-							text: 'Time (ms)'
+							text: 'Time (s)'
 						}
 					}
 				}

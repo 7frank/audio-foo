@@ -25,7 +25,7 @@
 			userInput: '',
 			isTyping: false,
 			wpm: 0,
-			text:"-empty-",
+			text: '-empty-',
 			status: 'idle',
 
 			countDown: 0,
