@@ -27,7 +27,7 @@
 			</picture>
 		</span>
 		<h1>to TypeRazor</h1>
-		<a href="/play">Start a Race</a>
+		<a href="/play/random">Start a Race</a>
 	</h1>
 
 	<ul>

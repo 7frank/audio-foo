@@ -2,23 +2,23 @@
 	import ResultChart from '../../components/ResultChart.svelte';
 	import { racingStore } from '../RacingHistory/store';
 	import CountDown from './CountDown.svelte';
-	import { IQuoteLoader } from './IQuoteLoader';
+	import { QuoteLoader, isRandomQuote } from './IQuoteLoader';
 	import ProgressBar from './ProgressBar.svelte';
 	import { Race } from './Race';
-	
-	const race = new Race(new IQuoteLoader(),racingStore);
+
+	export let quoteId: string = 'random';
+
+	const race = new Race(new QuoteLoader(quoteId), racingStore);
 	// TODO constructor is currently not initializing
 	race.reset();
+
+	if (!isRandomQuote(quoteId)) race.start();
 
 	let ref: HTMLInputElement;
 
 	// TODO is this a proper way to run effects?
 	$: $race.status && setTimeout(() => ref?.focus(), 10);
 </script>
-
-<svelte:head>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Racing Sans One" />
-</svelte:head>
 
 {#if $race.status == 'countdown'}
 	<div class="box">

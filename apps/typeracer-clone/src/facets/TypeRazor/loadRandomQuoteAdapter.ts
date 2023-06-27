@@ -35,3 +35,12 @@ export async function loadRandomQuoteAdapter(): Promise<Quote> {
 
 	return response.results[index];
 }
+
+export async function getQuoteById(quoteId: string): Promise<Quote> {
+	const response = await fetchWithZod(
+		Quote,
+		`https://api.quotable.io/quotes/${quoteId}?minLength=50&page=1&limit=150`
+	);
+
+	return response;
+}

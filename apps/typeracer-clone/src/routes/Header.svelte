@@ -4,6 +4,10 @@
 	import github from '$lib/images/github.svg';
 </script>
 
+<svelte:head>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Racing Sans One" />
+</svelte:head>
+
 <header>
 	<div class="corner">
 		<!-- <a href="https://kit.svelte.dev">
@@ -20,7 +24,7 @@
 				<a href="/">TypeRazor - Home</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/play' ? 'page' : undefined}>
-				<a href="/play">Start a Race</a>
+				<a href="/play/random">Start a Race</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/history' ? 'page' : undefined}>
 				<a href="/history">History</a>

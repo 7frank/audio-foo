@@ -59,7 +59,7 @@ export class Race {
 	}
 
 	async start() {
-		const quote = await this.quoteLoader.loadRandomQuote();
+		const quote = await this.quoteLoader.loadQuote();
 		this.text = quote;
 
 		this.status = 'idle';
