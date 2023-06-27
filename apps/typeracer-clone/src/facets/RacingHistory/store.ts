@@ -3,14 +3,10 @@ import { z } from 'zod';
 
 const History = z.object({
 	_id: z.string(),
-	// The quotation text
-	content: z.string(),
 	// The full name of the author
 	author: z.string(),
-	// The length of quote (number of characters)
-	length: z.number(),
-	// An array of tag names for this quote
-	tags: z.array(z.string())
+	// the achieved wpm
+	wpm: z.number()
 });
 
 const RacingStore = z.object({

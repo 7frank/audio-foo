@@ -1,11 +1,12 @@
 <script lang="ts">
 	import ResultChart from '../../components/ResultChart.svelte';
+	import { racingStore } from '../RacingHistory/store';
 	import CountDown from './CountDown.svelte';
 	import { IQuoteLoader } from './IQuoteLoader';
 	import ProgressBar from './ProgressBar.svelte';
 	import { Race } from './Race';
-
-	const race = new Race(new IQuoteLoader());
+	
+	const race = new Race(new IQuoteLoader(),racingStore);
 	// TODO constructor is currently not initializing
 	race.reset();
 

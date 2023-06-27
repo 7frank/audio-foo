@@ -1,6 +1,9 @@
 import { reactive } from './reactive';
 import { delay, findFirstDifference } from './utils';
 import type { IQuoteLoader } from './IQuoteLoader';
+import type { RacingStore } from '../RacingHistory/store';
+
+import type { Writable } from 'svelte/store';
 
 const fps = 60;
 const updateInterval = 1000 / fps;
@@ -21,7 +24,7 @@ export class Race {
 	diffPos: number;
 	currentCursorPos: number;
 
-	constructor(private quoteLoader: IQuoteLoader) {
+	constructor(private quoteLoader: IQuoteLoader, private store: Writable<RacingStore>) {
 		this.reset();
 	}
 
