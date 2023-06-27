@@ -6,13 +6,17 @@ History:
 <table>
 	<tr>
 		<th>id</th>
+        <th>createdAt</th>
+        <th>textId</th>
 		<th>author</th>
 		<th>wpm</th>
 		<th />
 	</tr>
 	{#each $racingStore.history as entry, i (i)}
 		<tr>
-			<td>{i}</td><td>{entry._id}</td>
+			<td>{i}</td>
+            <td>{entry.createdAt}</td>
+            <td>{entry._id}</td>
 			<td>{entry.author}</td>
 			<td>{entry.wpm}</td>
 			<td><button>Try Again</button></td>

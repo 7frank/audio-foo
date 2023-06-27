@@ -4,6 +4,7 @@ import type { IQuoteLoader } from './IQuoteLoader';
 import type { RacingStore } from '../RacingHistory/store';
 
 import type { Writable } from 'svelte/store';
+import type { Quote } from './loadRandomQuoteAdapter';
 
 const fps = 60;
 const updateInterval = 1000 / fps;
@@ -17,7 +18,7 @@ export class Race {
 	endTime: Date;
 	isTyping: boolean;
 	wpm: number;
-	text: string;
+	text: Quote;
 	userInput: string;
 	status: 'idle' | 'countdown' | 'started' | 'paused' | 'succeeded' | 'aborted' | 'failed';
 	countDown: number;
@@ -35,7 +36,7 @@ export class Race {
 		this.userInput = '';
 		this.isTyping = false;
 		this.wpm = 0;
-		this.text = '';
+		this.text = { _id: '-1', author: 'Foo', content: 'Bar', tags: [], length: 3 };
 		this.status = 'idle';
 		this.countDown = 0;
 		this.diffPos = 0;
@@ -51,8 +52,6 @@ export class Race {
 			this.interval = setInterval(() => this.run(), updateInterval);
 			this.userInput = '';
 
-			//focusInput();
-
 			this.status = 'started';
 
 			clearInterval(this.countDownTimerId);
@@ -61,7 +60,7 @@ export class Race {
 
 	async start() {
 		const quote = await this.quoteLoader.loadRandomQuote();
-		this.text = quote.content;
+		this.text = quote;
 
 		this.status = 'idle';
 		this.diffPos = 0;
@@ -89,12 +88,25 @@ export class Race {
 		// For example, you can track user input and update the displayed text.
 
 		this.calculateWPM(new Date());
-		const { diffPos: _d, isSame } = findFirstDifference(this.text, this.userInput);
+		const { diffPos: _d, isSame } = findFirstDifference(this.text.content, this.userInput);
 		this.diffPos = _d;
 		this.currentCursorPos = this.userInput.length;
 
 		if (isSame) {
 			this.stop('succeeded');
+
+			this.store.update((it) => {
+				it.history = [
+					...it.history,
+					{
+						_id: this.text._id,
+						author: this.text.author,
+						wpm: this.wpm,
+						createdAt: new Date().getTime()
+					}
+				];
+				return it;
+			});
 		}
 	}
 

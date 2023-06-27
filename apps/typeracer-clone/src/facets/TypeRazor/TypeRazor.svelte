@@ -53,7 +53,7 @@
 	<ProgressBar
 		isBotEnabled={false}
 		userName={'7frank'}
-		progress={($race.diffPos / $race.text.length) * 100}
+		progress={($race.diffPos / $race.text.content.length) * 100}
 		wpm={$race.wpm}
 		isStreetAnimated={$race.status == 'started'}
 	/>
@@ -83,7 +83,7 @@
 			Press the start button when ready.
 		{/if}
 		{#if $race.status != 'idle'}
-			{#each $race.text.split('') as item, i (i)}
+			{#each $race.text.content.split('') as item, i (i)}
 				<span
 					style="background-color: {i < $race.diffPos
 						? 'lightgreen'

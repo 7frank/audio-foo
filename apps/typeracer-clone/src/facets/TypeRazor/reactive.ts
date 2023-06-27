@@ -11,7 +11,7 @@ export function reactive<T>(): any {
 
 		return function (...args) {
 			const instance = new (constructor as Constructable<T>)(...args) as T;
-			console.log('Foo', instance, constructor);
+
 			// Set the store value as soon as we have an instance
 			store.set(instance as any);
 
