@@ -1,5 +1,3 @@
-import { writable } from 'svelte/store';
-
 import { z } from 'zod';
 import { createZodFetcher } from 'zod-fetch';
 import { getRandomInt } from './utils';
@@ -27,9 +25,7 @@ export type Quote = z.infer<typeof Quote>;
 
 const fetchWithZod = createZodFetcher();
 
-export const textStore = writable<Quote>();
-
-export async function loadRandomQuote(): Promise<Quote> {
+export async function loadRandomQuoteAdapter(): Promise<Quote> {
 	const response = await fetchWithZod(
 		Page,
 		'https://api.quotable.io/quotes?minLength=50&page=1&limit=150'
