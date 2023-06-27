@@ -41,43 +41,59 @@
 	</div>
 {/if}
 
-<div class="dialog">
-	{#if $race.status == 'idle' || $race.status == 'succeeded' || $race.status == 'failed' || $race.status == 'aborted'}
-		<button class="racing" on:click={() => $race.start()}>Start a new Race</button>
-	{/if}
+<div class="dialog card p-4">
+	<div class="flex items-center justify-center">
+		{#if $race.status == 'succeeded'}
+			<img
+				class="success-image"
+				src="https://24.media.tumblr.com/tumblr_m8szg9MgFa1qgfnmko1_500.gif"
+				alt="Smiley face"
+			/>
+		{/if}
 
-	{#if $race.status == 'succeeded'}
-		<img src="https://www.w3schools.com/tags/smiley.gif" alt="Smiley face" height="42" width="42" />
-	{/if}
+		{#if $race.status == 'idle' || $race.status == 'succeeded' || $race.status == 'failed' || $race.status == 'aborted'}
+			<button class="racing" on:click={() => $race.start()}>Start a new Race</button>
+		{/if}
 
-	<ProgressBar
-		isBotEnabled={false}
-		userName={'7frank'}
-		progress={($race.diffPos / $race.text.content.length) * 100}
-		wpm={$race.wpm}
-		isStreetAnimated={$race.status == 'started'}
-	/>
+		{#if $race.status == 'succeeded'}
+			<img
+				class="success-image"
+				src="https://24.media.tumblr.com/tumblr_m8szg9MgFa1qgfnmko1_500.gif"
+				alt="Smiley face"
+			/>
+		{/if}
+	</div>
 
-	{#if $race.status != 'idle'}
+	<div class="card p-4">
 		<ProgressBar
-			isBotEnabled={$race.status == 'started'}
+			isBotEnabled={false}
+			userName={'7frank'}
+			progress={($race.diffPos / $race.text.content.length) * 100}
+			wpm={$race.wpm}
 			isStreetAnimated={$race.status == 'started'}
 		/>
-		<ProgressBar
-			isBotEnabled={$race.status == 'started'}
-			isStreetAnimated={$race.status == 'started'}
-		/>
-		<ProgressBar
-			isBotEnabled={$race.status == 'started'}
-			isStreetAnimated={$race.status == 'started'}
-		/>
-		<ProgressBar
-			isBotEnabled={$race.status == 'started'}
-			isStreetAnimated={$race.status == 'started'}
-		/>
-	{/if}
 
-	<p class="text">
+		{#if $race.status != 'idle'}
+			<ProgressBar
+				isBotEnabled={$race.status == 'started'}
+				isStreetAnimated={$race.status == 'started'}
+			/>
+			<ProgressBar
+				isBotEnabled={$race.status == 'started'}
+				isStreetAnimated={$race.status == 'started'}
+			/>
+			<ProgressBar
+				isBotEnabled={$race.status == 'started'}
+				isStreetAnimated={$race.status == 'started'}
+			/>
+			<ProgressBar
+				isBotEnabled={$race.status == 'started'}
+				isStreetAnimated={$race.status == 'started'}
+			/>
+		{/if}
+	</div>
+
+	<p class="text mt-5 card p-4">
 		{#if $race.status == 'idle'}
 			Welcome TypeRazor, let's start a new race and bring you to the top!<br />
 			Press the start button when ready.
@@ -94,7 +110,13 @@
 			{/each}
 		{/if}
 	</p>
-	<input bind:this={ref} bind:value={$race.userInput} disabled={!$race.isTyping} />
+	<input
+		class="card p-4"
+		placeholder=""
+		bind:this={ref}
+		bind:value={$race.userInput}
+		disabled={!$race.isTyping}
+	/>
 
 	<ResultChart />
 </div>
@@ -104,7 +126,7 @@
 		resize: none;
 		padding: 0.5em;
 		font-size: 2rem;
-		margin: 0 0em;
+		margin: 0.5em 0;
 		margin-bottom: 1em;
 	}
 
@@ -138,5 +160,9 @@
 		display: flex;
 		flex-direction: column;
 		width: 90%;
+		background-color: rgba(255, 255, 255, 0.3);
+	}
+	.success-image {
+		height: 200px;
 	}
 </style>

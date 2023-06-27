@@ -1,5 +1,4 @@
 <script>
-
 	// Your selected Skeleton theme:
 	import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
 	// This contains the bulk of Skeletons required styles:
@@ -8,9 +7,7 @@
 	import '../app.postcss';
 	import './styles.css';
 
-
 	import Header from './Header.svelte';
-
 </script>
 
 <div class="app">

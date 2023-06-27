@@ -19,29 +19,28 @@
 <Bg src={bgImage} />
 <AudioPlayer src={bgAudioSources} />
 <section>
-	
-		<div class="welcome" style="height:250px">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</div>
-		<h1 class="h1 racing">- to TypeRazor - </h1>
-		<a class="h1 mt-20 mb-10 racing" href="/play/random">Start a Race</a>
-	
-		<div class="card p-4 opacity-80">
-	<ul>
-		<li>train individual weaknesses by selecting words from a sentence after the race</li>
-		<li>re-implement the word by word feature of typeRacer</li>
-		<li>
-			implement the race track / progress bar and give it a "spin" some eye candy for sections where
-			your speed is increasing
-		</li>
-		<li>try to implement other type racer features later on</li>
-		<li>https://www.gutenberg.org/ebooks/7849</li>
-		<li>https://gutendex.com/</li>
-	</ul>
-</div>
+	<div class="welcome" style="height:250px">
+		<picture>
+			<source srcset={welcome} type="image/webp" />
+			<img src={welcome_fallback} alt="Welcome" />
+		</picture>
+	</div>
+	<h1 class="h1 racing">- to TypeRazor -</h1>
+	<a class="h1 mt-20 mb-10 racing" href="/play/random">Start a Race</a>
+
+	<div class="card p-4 opacity-80">
+		<ul>
+			<li>train individual weaknesses by selecting words from a sentence after the race</li>
+			<li>re-implement the word by word feature of typeRacer</li>
+			<li>
+				implement the race track / progress bar and give it a "spin" some eye candy for sections
+				where your speed is increasing
+			</li>
+			<li>try to implement other type racer features later on</li>
+			<li>https://www.gutenberg.org/ebooks/7849</li>
+			<li>https://gutendex.com/</li>
+		</ul>
+	</div>
 </section>
 
 <style>
@@ -59,20 +58,17 @@
 		display: block;
 		position: relative;
 		width: 100%;
-		
+
 		padding: 0 0 0 0;
 	}
 
 	.welcome img {
 		position: relative;
 		width: 100%;
-		
-		
+
 		display: block;
 	}
 	.racing {
-		
 		font-family: 'Racing Sans One', sans-serif;
 	}
-
 </style>

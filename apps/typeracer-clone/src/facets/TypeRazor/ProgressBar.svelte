@@ -45,7 +45,6 @@
 		flex-direction: row;
 		width: calc(100% - 2em);
 		margin-right: 2em;
-		background: rgba(255, 255, 255, 1);
 		padding: 0.5em 0.5em;
 	}
 
