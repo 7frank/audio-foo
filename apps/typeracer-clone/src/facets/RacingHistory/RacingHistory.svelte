@@ -38,13 +38,12 @@
 		padding: 0.5em;
 	}
 
-	.racing{
-
+	.racing {
 		font-family: 'Racing Sans One', sans-serif;
 	}
 	table {
 		font-size: 2em;
-		
+
 		background-color: rgba(255, 255, 255, 0.6);
 	}
 </style>

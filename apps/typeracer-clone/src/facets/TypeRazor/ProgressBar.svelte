@@ -55,7 +55,7 @@
 		width: calc(100% - 10em);
 		margin-left: 10em;
 		height: 3em;
-		background-color: #f2f2f2;
+		
 		border-radius: 10px;
 
 		margin-bottom: 0.5em;
