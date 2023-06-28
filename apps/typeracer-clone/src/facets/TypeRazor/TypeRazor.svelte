@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ResultChart from '../../components/ResultChart.svelte';
 	import { racingStore } from '../RacingHistory/store';
+	import Character from './Character.svelte';
 	import CountDown from './CountDown.svelte';
 	import { QuoteLoader, isRandomQuote } from './IQuoteLoader';
 	import ProgressBar from './ProgressBar.svelte';
@@ -63,7 +64,7 @@
 			/>
 		{/if}
 	</div>
-
+<Character></Character>
 	<div class="card p-4">
 		<ProgressBar
 			isBotEnabled={false}
