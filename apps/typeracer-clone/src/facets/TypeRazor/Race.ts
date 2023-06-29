@@ -67,7 +67,7 @@ export class Race {
 		if (!this.isTyping && this.countDown <= 0) {
 			this.isTyping = true;
 			this.startTime = new Date();
-			//this.interval = setInterval(() => this.run(), updateInterval);
+			this.interval = setInterval(() => this.run(), updateInterval);
 			this.userInput = '';
 
 			this.status = 'started';
@@ -101,11 +101,14 @@ export class Race {
 		this.status = reason;
 	}
 
+	run() {
+		this.calculateWPM(new Date());
+	}
+
 	/**
 	 * Trigger this function after userInput changed to update game logic.
 	 */
-	run() {
-		this.calculateWPM(new Date());
+	updateLogic() {
 		const {
 			diffPos: _d,
 			isSame,

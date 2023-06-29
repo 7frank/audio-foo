@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ResultChart from '../../components/ResultChart.svelte';
-	import { racingStore,stubRacingStore } from '../RacingHistory/store';
+	import { racingStore, stubRacingStore } from '../RacingHistory/store';
 	import CountDown from './CountDown.svelte';
 	import {
 		RandomQuoteLoader,
@@ -11,7 +11,7 @@
 	import ProgressBar from './ProgressBar.svelte';
 	import { Race } from './Race';
 
-	export let mode: 'random' | 'weak-words'|"id" = 'random';
+	export let mode: 'random' | 'weak-words' | 'id' = 'random';
 	export let quoteId: string = 'random';
 	let race: Race;
 	switch (mode) {
@@ -149,7 +149,7 @@
 		placeholder=""
 		bind:this={ref}
 		bind:value={$race.userInput}
-		on:keyup={() => $race.run()}
+		on:keyup={() => $race.updateLogic()}
 		disabled={!$race.isTyping}
 	/>
 
