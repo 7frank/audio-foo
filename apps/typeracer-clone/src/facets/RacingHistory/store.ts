@@ -1,33 +1,29 @@
 import { writable } from 'svelte/store';
-import { z } from 'zod';
+import merge from 'ts-deepmerge';
 
 import { browser } from '$app/environment';
+import { defaultStore, RacingStore } from './RacingStore';
 
-const History = z.object({
-	_id: z.string(),
-	// The full name of the author
-	author: z.string(),
-	// the achieved wpm
-	wpm: z.number(),
-	// Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.
-	createdAt: z.number().optional()
-});
+const storeKey = 'store';
 
-const RacingStore = z.object({
-	history: z.array(History)
-});
+function loadFromStore(): RacingStore {
+	if (browser) {
+		const s = window.localStorage.getItem(storeKey);
+		let json = s ? JSON.parse(s) : defaultStore;
+		json = merge(defaultStore, json);
+		try {
+			return RacingStore.parse(json);
+		} catch (e) {
+			alert('your racing store was corrupt :-( and could not be retrieved');
+			return defaultStore;
+		}
+	} else return defaultStore;
+}
 
-export type RacingStore = z.infer<typeof RacingStore>;
-export type History = z.infer<typeof History>;
+const fromStore = loadFromStore();
 
-const defaultStore = { history: [] } satisfies RacingStore;
-
-const fromStore =
-	(browser && JSON.parse(window.localStorage.getItem('store') ?? JSON.stringify(defaultStore))) ||
-	defaultStore;
-console.log(fromStore);
-export const racingStore = writable<RacingStore>(RacingStore.parse(fromStore));
+export const racingStore = writable<RacingStore>(fromStore);
 
 racingStore.subscribe(
-	(val) => browser && window.localStorage.setItem('store', JSON.stringify(val))
+	(val) => browser && window.localStorage.setItem(storeKey, JSON.stringify(val))
 );

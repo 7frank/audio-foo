@@ -1,7 +1,7 @@
 import { reactive } from './reactive';
 import { delay, findFirstDifference } from './utils';
 import type { IQuoteLoader } from './IQuoteLoader';
-import type { RacingStore } from '../RacingHistory/store';
+import type { RacingStore } from '../RacingHistory/RacingStore';
 
 import type { Writable } from 'svelte/store';
 import type { Quote } from './loadRandomQuoteAdapter';

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import ResultChart from '../../components/ResultChart.svelte';
 	import { racingStore } from '../RacingHistory/store';
-	import Character from './Character.svelte';
 	import CountDown from './CountDown.svelte';
 	import { QuoteLoader, isRandomQuote } from './IQuoteLoader';
 	import ProgressBar from './ProgressBar.svelte';
