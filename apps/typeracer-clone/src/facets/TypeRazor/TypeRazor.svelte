@@ -1,22 +1,55 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import ResultChart from '../../components/ResultChart.svelte';
-	import { racingStore } from '../RacingHistory/store';
+	import { racingStore,stubRacingStore } from '../RacingHistory/store';
 	import CountDown from './CountDown.svelte';
-	import { QuoteLoader, isRandomQuote } from './IQuoteLoader';
+	import {
+		RandomQuoteLoader,
+		FromIdRandomQuoteLoader,
+		TrainWeakWordsQuoteLoader
+	} from './IQuoteLoader';
 	import ProgressBar from './ProgressBar.svelte';
 	import { Race } from './Race';
 
-	export let quoteId: string = 'random';
+	export let quoteId: string | 'random' | 'weak-words' = 'random';
+	let race: Race;
+	switch (quoteId) {
+		case 'random': {
+			race = new Race(new RandomQuoteLoader(), racingStore);
+			// TODO constructor is currently not initializing
+			race.reset();
+			break;
+		}
+		case 'weak-words': {
+			race = new Race(new TrainWeakWordsQuoteLoader(), stubRacingStore);
+			// TODO constructor is currently not initializing
+			race.reset();
+			race.start();
+			break;
+		}
+		default: {
+			race = new Race(new FromIdRandomQuoteLoader(quoteId), racingStore);
+			// TODO constructor is currently not initializing
+			race.reset();
+			race.start();
+			break;
+		}
+	}
 
-	const race = new Race(new QuoteLoader(quoteId), racingStore);
-	// TODO constructor is currently not initializing
-	race.reset();
-
-	if (!isRandomQuote(quoteId)) race.start();
+	onMount(() => {
+		return () => {
+			console.log('Race was aborted');
+			race.stop('aborted');
+		};
+	});
 
 	let ref: HTMLInputElement;
 
-	// TODO is this a proper way to run effects?
+	/**
+	 * We delay focusing the text area here.
+	 *
+	 * TODO is this a proper way to run effects?
+	 */
 	$: $race.status && setTimeout(() => ref?.focus(), 10);
 </script>
 
@@ -115,7 +148,7 @@
 		placeholder=""
 		bind:this={ref}
 		bind:value={$race.userInput}
-		on:keyup={()=>$race.run()}
+		on:keyup={() => $race.run()}
 		disabled={!$race.isTyping}
 	/>
 

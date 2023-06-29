@@ -23,6 +23,7 @@ function loadFromStore(): RacingStore {
 const fromStore = loadFromStore();
 
 export const racingStore = writable<RacingStore>(fromStore);
+export const stubRacingStore = writable<RacingStore>(defaultStore);
 
 racingStore.subscribe(
 	(val) => browser && window.localStorage.setItem(storeKey, JSON.stringify(val))

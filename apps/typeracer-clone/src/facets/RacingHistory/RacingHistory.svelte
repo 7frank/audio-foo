@@ -30,9 +30,6 @@
 	</table>
 </div>
 
-
-
-
 <h1 class="h1 m-4 racing">- Spelling errors -</h1>
 <div class="table-container">
 	<table class="table racing table-hover">
@@ -53,13 +50,12 @@
 					<td>{entry.word}</td>
 					<td>{entry.severity}</td>
 					<td>{entry.createdAt ? new Date(entry.createdAt).toISOString() : ''}</td>
-					<td><a href="#todo">train words</a></td>
+					<td><a href="/play/weak-words">train words</a></td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
 </div>
-
 
 <style>
 	table,
