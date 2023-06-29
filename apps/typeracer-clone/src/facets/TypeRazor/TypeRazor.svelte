@@ -115,6 +115,7 @@
 		placeholder=""
 		bind:this={ref}
 		bind:value={$race.userInput}
+		on:keyup={()=>$race.run()}
 		disabled={!$race.isTyping}
 	/>
 

@@ -67,7 +67,7 @@ export class Race {
 		if (!this.isTyping && this.countDown <= 0) {
 			this.isTyping = true;
 			this.startTime = new Date();
-			this.interval = setInterval(() => this.run(), updateInterval);
+			//this.interval = setInterval(() => this.run(), updateInterval);
 			this.userInput = '';
 
 			this.status = 'started';
@@ -101,10 +101,10 @@ export class Race {
 		this.status = reason;
 	}
 
+	/**
+	 * Trigger this function after userInput changed to update game logic.
+	 */
 	run() {
-		// Perform any additional logic during the typing practice interval
-		// For example, you can track user input and update the displayed text.
-
 		this.calculateWPM(new Date());
 		const {
 			diffPos: _d,
@@ -116,7 +116,29 @@ export class Race {
 
 		if (hasError) {
 			const w = getWordAt(this.text.content, this.diffPos);
-			console.log(w);
+
+			this.store.update((it) => {
+				const lastError = it.spellingErrors.pop();
+
+				if (lastError?.word == w) {
+					lastError.severity++;
+
+					it.spellingErrors = [...it.spellingErrors, lastError];
+					return it;
+				} else {
+					const newError = {
+						_id: this.text._id,
+						severity: 1,
+						word: w,
+						createdAt: new Date().getTime()
+					};
+					if (lastError) it.spellingErrors = [...it.spellingErrors, lastError, newError];
+					else it.spellingErrors = [...it.spellingErrors, newError];
+					return it;
+				}
+			});
+
+			this.store.subscribe((it) => console.log(it.spellingErrors));
 		}
 
 		if (isSame) {
