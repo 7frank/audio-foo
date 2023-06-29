@@ -1,16 +1,18 @@
-export function findFirstDifference(text1: string, text2: string) {
-	const length = Math.min(text1.length, text2.length);
+export function findFirstDifference(wholeText: string, partialText: string) {
+	const length = Math.min(wholeText.length, partialText.length);
+
+	const hasError = wholeText.indexOf(partialText) == -1;
 
 	for (let i = 0; i < length; i++) {
-		if (text1[i] !== text2[i]) {
-			return { diffPos: i, isSame: false };
+		if (wholeText[i] !== partialText[i]) {
+			return { diffPos: i, isSame: false, hasError };
 		}
 	}
 
 	// If the loop completes without finding a difference,
 	// check if the lengths of the texts are different
-	if (text1.length !== text2.length) {
-		return { diffPos: length, isSame: false };
+	if (wholeText.length !== partialText.length) {
+		return { diffPos: length, isSame: false, hasError };
 	}
 
 	// If the lengths and all characters are the same, return -1

@@ -9,6 +9,24 @@ import type { Quote } from './loadRandomQuoteAdapter';
 const fps = 60;
 const updateInterval = 1000 / fps;
 
+function getWordAt(str: string, pos: number) {
+	// Perform type conversions.
+	str = String(str);
+	pos = Number(pos) >>> 0;
+
+	// Search for the word's beginning and end.
+	const left = str.slice(0, pos + 1).search(/\S+$/),
+		right = str.slice(pos).search(/\s/);
+
+	// The last word in the string is a special case.
+	if (right < 0) {
+		return str.slice(left);
+	}
+
+	// Return the word, using the located bounds to extract it from the string.
+	return str.slice(left, right + pos);
+}
+
 @reactive()
 export class Race {
 	interval?: NodeJS.Timeout;
@@ -88,9 +106,18 @@ export class Race {
 		// For example, you can track user input and update the displayed text.
 
 		this.calculateWPM(new Date());
-		const { diffPos: _d, isSame } = findFirstDifference(this.text.content, this.userInput);
+		const {
+			diffPos: _d,
+			isSame,
+			hasError
+		} = findFirstDifference(this.text.content, this.userInput);
 		this.diffPos = _d;
 		this.currentCursorPos = this.userInput.length;
+
+		if (hasError) {
+			const w = getWordAt(this.text.content, this.diffPos);
+			console.log(w);
+		}
 
 		if (isSame) {
 			this.stop('succeeded');
