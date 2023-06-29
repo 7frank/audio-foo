@@ -24,7 +24,9 @@ const SpellingErrors = z.object({
 	 */
 	word: z.string(),
 	// Returns the stored time value in milliseconds since midnight, January 1, 1970 UTC.
-	createdAt: z.number().optional()
+	createdAt: z.number().optional(),
+	// if selected, this wil lbe selected in the weak words training
+	selectedForTraining: z.boolean().optional()
 });
 
 export const RacingStore = z.object({

@@ -13,8 +13,11 @@
 
 	export let mode: 'random' | 'weak-words' | 'id' = 'random';
 	export let quoteId: string = 'random';
+
+	$: console.log('mode', mode, 'quoteId', quoteId);
+
 	let race: Race;
-	switch (mode) {
+	$: switch (mode) {
 		case 'random': {
 			race = new Race(new RandomQuoteLoader(), racingStore);
 			// TODO constructor is currently not initializing

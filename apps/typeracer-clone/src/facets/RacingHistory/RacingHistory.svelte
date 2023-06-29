@@ -36,10 +36,11 @@
 		<thead>
 			<tr>
 				<th>id</th>
+				<th>train?</th>
+				<th>word</th>
+				<th>severity</th>
 				<th>createdAt</th>
-				<th>textId</th>
-				<th>author</th>
-				<th>wpm</th>
+				<th />
 				<th />
 			</tr></thead
 		>
@@ -47,6 +48,7 @@
 			{#each $racingStore.spellingErrors as entry, i (i)}
 				<tr>
 					<td>{i}</td>
+					<td><input type="checkbox" bind:checked={entry.selectedForTraining} /></td>
 					<td>{entry.word}</td>
 					<td>{entry.severity}</td>
 					<td>{entry.createdAt ? new Date(entry.createdAt).toISOString() : ''}</td>

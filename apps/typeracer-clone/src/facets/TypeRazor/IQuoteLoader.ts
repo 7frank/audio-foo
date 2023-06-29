@@ -32,6 +32,7 @@ export class TrainWeakWordsQuoteLoader implements IQuoteLoader {
 		const quote = await new Promise<Quote>((resolve) => {
 			racingStore.update((it) => {
 				const sentence = it.spellingErrors
+					.filter((it) => it.selectedForTraining)
 					.map((it) => Array.from({ length: 4 }, () => it.word).join(' '))
 					.join(' ');
 				const quote = { _id: '', author: '', content: sentence, length: sentence.length, tags: [] };
