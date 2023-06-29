@@ -8,11 +8,12 @@
 
 	export let height = '50px';
 	export let width = '50px';
+	export let state: 'idle' | 'run' = 'idle';
 
-	async function loadSpriteSheet(app: PIXI.Application) {
+	async function loadSpriteSheet() {
 		atlasData.animations = {
 			idle: Array.from({ length: 4 }, (_, i) => `Sunny-land-assets-files/idle/${i}.png`),
-            run: Array.from({ length: 6 }, (_, i) => `Sunny-land-assets-files/run/${i}.png`)
+			run: Array.from({ length: 6 }, (_, i) => `Sunny-land-assets-files/run/${i}.png`)
 		};
 
 		// Create the SpriteSheet from data and image
@@ -22,9 +23,12 @@
 
 		// Generate all the Textures asynchronously
 		await spriteSheet.parse();
+		return spriteSheet;
+	}
 
+	function createAnimation(spriteSheet: PIXI.Spritesheet, state: string) {
 		// spriteSheet is ready to use!
-		const anim = new PIXI.AnimatedSprite(spriteSheet.animations.idle);
+		const anim = new PIXI.AnimatedSprite(spriteSheet.animations[state]);
 
 		// set the animation speed
 		anim.animationSpeed = 0.1666;
@@ -32,12 +36,14 @@
 		// play the animation on a loop
 		anim.play();
 
-		// add it to the stage to render
-		app.stage.addChild(anim);
+		return anim;
 	}
 
-	function init() {
-		const app = new PIXI.Application({
+	let app: PIXI.Application;
+	let animations: Record<string, PIXI.AnimatedSprite>;
+
+	async function init() {
+		app = new PIXI.Application({
 			backgroundColor: '#1099bb',
 			backgroundAlpha: 0,
 			resizeTo: ref
@@ -45,12 +51,23 @@
 
 		document.body.appendChild(app.view);
 
-	
+		const sh = await loadSpriteSheet();
 
-		loadSpriteSheet(app);
+		animations = ['idle', 'run'].reduce(
+			(accumulator, curr) => ({ ...accumulator, [curr]: createAnimation(sh, curr) }),
+			{} as Record<string, PIXI.AnimatedSprite>
+		);
+	}
+
+	function setCurrentAnimation(animations: Record<string, PIXI.AnimatedSprite>, state: string) {
+		if (!app || !animations) return;
+		// add it to the stage to render
+		app.stage.addChild(animations[state]);
 
 		ref.appendChild(app.view);
 	}
+
+	$: setCurrentAnimation(animations, state);
 
 	onMount(() => {
 		init();
