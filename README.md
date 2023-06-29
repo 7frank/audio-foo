@@ -92,8 +92,13 @@ click on "uploads" in the naviation
   - https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address?hl=de
   - update dns record (A)
 
+## troubleshooting
+
 - traefik-forward-auth seems to have problems with https -.-
   - https://github.com/traefik/traefik/issues/4972
+- payment container seems broken when started on "compute engine"?
+  - will slow down host
+- isolate container and see what we can find
 
 ### stripe env variables
 
