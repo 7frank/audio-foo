@@ -11,9 +11,10 @@
 	import ProgressBar from './ProgressBar.svelte';
 	import { Race } from './Race';
 
-	export let quoteId: string | 'random' | 'weak-words' = 'random';
+	export let mode: 'random' | 'weak-words'|"id" = 'random';
+	export let quoteId: string = 'random';
 	let race: Race;
-	switch (quoteId) {
+	switch (mode) {
 		case 'random': {
 			race = new Race(new RandomQuoteLoader(), racingStore);
 			// TODO constructor is currently not initializing

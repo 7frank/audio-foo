@@ -24,7 +24,7 @@
 				<a href="/">TypeRazor - Home</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/play' ? 'page' : undefined}>
-				<a href="/play/random">Start a Race</a>
+				<a href="/play/random/">Start a Race</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/history' ? 'page' : undefined}>
 				<a href="/history">History</a>

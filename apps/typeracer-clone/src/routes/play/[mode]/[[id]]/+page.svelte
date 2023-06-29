@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/stores';
 
-	import AudioPlayer from '../../../components/AudioPlayer.svelte';
-	import Bg from '../../../components/Bg.svelte';
-	import TypeRazor from '../../../facets/TypeRazor/TypeRazor.svelte';
+	import AudioPlayer from '../../../../components/AudioPlayer.svelte';
+	import Bg from '../../../../components/Bg.svelte';
+	import TypeRazor from '../../../../facets/TypeRazor/TypeRazor.svelte';
 
 	const bgAudioSources = [
 		'https://www.fesliyanstudios.com/musicfiles/2020-03-22_-_8_Bit_Surf_-_FesliyanStudios.com_-_David_Renda/2020-03-22_-_8_Bit_Surf_-_FesliyanStudios.com_-_David_Renda.mp3',
@@ -12,6 +12,7 @@
 	];
 
 	$: quoteId = $page.params.id;
+	$: mode = $page.params.mode;
 </script>
 
 <svelte:head>
@@ -22,7 +23,7 @@
 <Bg />
 <AudioPlayer src={bgAudioSources} />
 <section>
-	<TypeRazor {quoteId} />
+	<TypeRazor {mode} {quoteId} />
 </section>
 
 <style>

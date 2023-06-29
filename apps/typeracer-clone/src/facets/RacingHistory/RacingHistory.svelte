@@ -23,7 +23,7 @@
 					<td>{entry._id}</td>
 					<td>{entry.author}</td>
 					<td>{entry.wpm}</td>
-					<td><a href="/play/{entry._id}">Try Again</a></td>
+					<td><a href="/play/id/{entry._id}">Try Again</a></td>
 				</tr>
 			{/each}
 		</tbody>
