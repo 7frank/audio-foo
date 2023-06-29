@@ -51,7 +51,7 @@
 
 	/**
 	 * We delay focusing the text area here.
-	 *
+	 * TODO in combination with age siwtches this has strange behaviour
 	 * TODO is this a proper way to run effects?
 	 */
 	$: $race.status && setTimeout(() => ref?.focus(), 10);

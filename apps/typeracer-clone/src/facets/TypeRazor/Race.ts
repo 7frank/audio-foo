@@ -94,11 +94,14 @@ export class Race {
 		if (this.isTyping) {
 			this.isTyping = false;
 			this.endTime = new Date();
-			if (this.interval) clearInterval(this.interval);
+			//if (this.interval) clearInterval(this.interval);
 			this.calculateWPM(this.endTime);
 		}
 
 		this.status = reason;
+
+		clearInterval(this.interval);
+		clearInterval(this.countDownTimerId);
 	}
 
 	run() {
