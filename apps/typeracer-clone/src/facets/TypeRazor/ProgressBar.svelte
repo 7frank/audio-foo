@@ -2,6 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import Street from '../../components/Street.svelte';
 	import { getRandomInt } from './utils';
+	import Character from './Character.svelte';
 
 	export let progress = 0;
 
@@ -31,8 +32,11 @@
 	<div class="progress-bar">
 		<Street speed={isStreetAnimated ? wpm / 5 : 0}>
 			<div class="progress" style="width: {progress}%;">
+				<div>
 				<span>{userName}</span>
-				<img alt="razor" src="https://i.giphy.com/media/vNqgL8Rv3Qta5rFB9s/giphy.webp" />
+				<Character />
+				<!-- <img alt="razor" src="https://i.giphy.com/media/vNqgL8Rv3Qta5rFB9s/giphy.webp" /> -->
+			</div>
 			</div>
 		</Street>
 	</div>

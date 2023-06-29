@@ -64,7 +64,7 @@
 			/>
 		{/if}
 	</div>
-	<Character />
+
 	<div class="card p-4">
 		<ProgressBar
 			isBotEnabled={false}
