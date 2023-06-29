@@ -34,7 +34,7 @@
 			<div class="progress" style="width: {progress}%;">
 				<div>
 					<span>{userName}</span>
-					<Character state={isStreetAnimated?"run":"idle"} />
+					<Character state={isStreetAnimated ? 'run' : 'idle'} />
 					<!-- <img alt="razor" src="https://i.giphy.com/media/vNqgL8Rv3Qta5rFB9s/giphy.webp" /> -->
 				</div>
 			</div>
