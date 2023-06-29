@@ -137,8 +137,6 @@ export class Race {
 					return it;
 				}
 			});
-
-			this.store.subscribe((it) => console.log(it.spellingErrors));
 		}
 
 		if (isSame) {

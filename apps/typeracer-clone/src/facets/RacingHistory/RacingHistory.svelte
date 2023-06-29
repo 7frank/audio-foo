@@ -30,6 +30,37 @@
 	</table>
 </div>
 
+
+
+
+<h1 class="h1 m-4 racing">- Spelling errors -</h1>
+<div class="table-container">
+	<table class="table racing table-hover">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>createdAt</th>
+				<th>textId</th>
+				<th>author</th>
+				<th>wpm</th>
+				<th />
+			</tr></thead
+		>
+		<tbody>
+			{#each $racingStore.spellingErrors as entry, i (i)}
+				<tr>
+					<td>{i}</td>
+					<td>{entry.word}</td>
+					<td>{entry.severity}</td>
+					<td>{entry.createdAt ? new Date(entry.createdAt).toISOString() : ''}</td>
+					<td><a href="#todo">train words</a></td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</div>
+
+
 <style>
 	table,
 	tr,
