@@ -24,11 +24,14 @@
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">TypeRazor - Home</a>
 			</li>
-			<li aria-current={$page.url.pathname === '/play' ? 'page' : undefined}>
+			<li aria-current={$page.url.pathname.startsWith('/play') ? 'page' : undefined}>
 				<a href="/play/random/">Start a Race</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/history' ? 'page' : undefined}>
 				<a href="/history">History</a>
+			</li>
+			<li aria-current={$page.url.pathname === '/subscribers' ? 'page' : undefined}>
+				<a href="/subscribers">Subscribers</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
