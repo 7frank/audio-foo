@@ -11,10 +11,15 @@
 	import ProgressBar from './ProgressBar.svelte';
 	import { Race } from './Race';
 
+ /**
+  * TODO maybe fetch eagerly?
+  * TODO or that the "race" instance does not get recreated
+  * TODO find out why the router does not refresh the observable correctly when we navigate from history page (currently work around implemented) 
+  */
 	export let mode: 'random' | 'weak-words' | 'id' = 'random';
 	export let quoteId: string = 'random';
 
-	$: console.log('mode', mode, 'quoteId', quoteId);
+
 
 	let race: Race;
 	$: switch (mode) {
@@ -50,13 +55,9 @@
 	let ref: HTMLInputElement;
 
 	/**
-	 * We delay focusing the text area here.
-	 * TODO in combination with age switches this has strange behavior
-	 * TODO is this a proper way to run effects?
-	 * TODO maybe fetch eagerly?
-	 * TODO or that the "race" instance does not get recreated
+	 * We delay focusing the text area here with this work around -.-
 	 */
-	$: $race.status && setTimeout(() => ref?.focus(), 10);
+	 $: $race.status == 'started' && $race.elapsedMs < 100 && ref?.focus();
 </script>
 
 {#if $race.status == 'countdown'}

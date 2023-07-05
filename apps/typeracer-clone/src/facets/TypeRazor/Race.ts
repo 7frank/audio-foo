@@ -70,7 +70,7 @@ export class Race {
 			this.interval = setInterval(() => this.run(), updateInterval);
 			this.userInput = '';
 
-			this.status = 'started';
+			if (this.status != 'started') this.status = 'started';
 
 			clearInterval(this.countDownTimerId);
 		}
