@@ -51,8 +51,10 @@
 
 	/**
 	 * We delay focusing the text area here.
-	 * TODO in combination with age siwtches this has strange behaviour
+	 * TODO in combination with age switches this has strange behavior
 	 * TODO is this a proper way to run effects?
+	 * TODO maybe fetch eagerly?
+	 * TODO or that the "race" instance does not get recreated
 	 */
 	$: $race.status && setTimeout(() => ref?.focus(), 10);
 </script>

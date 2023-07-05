@@ -67,6 +67,12 @@ click on "uploads" in the naviation
 
 ## todo
 
+- compare this stack to
+  - https://github.com/joysofcode/enterprise-stack
+  - https://vercel.com/templates/next.js/subscription-starter
+  - which is easier to deploy to vercel which definitely is a plus
+  - try to get traefik run with vercel by starting it as npm package & tubo app instead of through
+
 ### register certificate
 
 - [see](/home/freimann/Projects/ai-book/provision-wordpress-on-aws.md)
