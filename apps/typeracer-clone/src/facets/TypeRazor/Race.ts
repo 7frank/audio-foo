@@ -34,7 +34,6 @@ export class Race {
 	startTime: Date;
 	elapsedMs: number;
 	endTime: Date;
-	isTyping: boolean;
 	wpm: number;
 	text: Quote;
 	userInput: string;
@@ -52,7 +51,6 @@ export class Race {
 		this.elapsedMs = 0;
 		this.endTime = new Date();
 		this.userInput = '';
-		this.isTyping = false;
 		this.wpm = 0;
 		this.text = { _id: '-1', author: 'Foo', content: 'Bar', tags: [], length: 3 };
 		this.status = 'idle';
@@ -64,13 +62,12 @@ export class Race {
 	onCountDownTick() {
 		this.countDown -= 1 / fps;
 
-		if (!this.isTyping && this.countDown <= 0) {
-			this.isTyping = true;
+		if (this.status == 'countdown' && this.countDown <= 0) {
 			this.startTime = new Date();
 			this.interval = setInterval(() => this.run(), updateInterval);
 			this.userInput = '';
 
-			if (this.status != 'started') this.status = 'started';
+			this.status = 'started';
 
 			clearInterval(this.countDownTimerId);
 		}
@@ -91,8 +88,7 @@ export class Race {
 	}
 
 	stop(reason: Race['status']) {
-		if (this.isTyping) {
-			this.isTyping = false;
+		if (this.status == 'started') {
 			this.endTime = new Date();
 			//if (this.interval) clearInterval(this.interval);
 			this.calculateWPM(this.endTime);

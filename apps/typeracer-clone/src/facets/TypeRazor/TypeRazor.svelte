@@ -156,7 +156,7 @@
 		bind:this={ref}
 		bind:value={$race.userInput}
 		on:keyup={() => $race.updateLogic()}
-		disabled={!$race.isTyping}
+		disabled={$race.status!="started"}
 	/>
 
 	<ResultChart />
