@@ -11,15 +11,13 @@
 	import ProgressBar from './ProgressBar.svelte';
 	import { Race } from './Race';
 
- /**
-  * TODO maybe fetch eagerly?
-  * TODO or that the "race" instance does not get recreated
-  * TODO find out why the router does not refresh the observable correctly when we navigate from history page (currently work around implemented) 
-  */
+	/**
+	 * TODO maybe fetch eagerly?
+	 * TODO or that the "race" instance does not get recreated
+	 * TODO find out why the router does not refresh the observable correctly when we navigate from history page (currently work around implemented)
+	 */
 	export let mode: 'random' | 'weak-words' | 'id' = 'random';
 	export let quoteId: string = 'random';
-
-
 
 	let race: Race;
 	$: switch (mode) {
@@ -57,7 +55,7 @@
 	/**
 	 * We delay focusing the text area here with this work around -.-
 	 */
-	 $: $race.status == 'started' && $race.elapsedMs < 100 && ref?.focus();
+	$: $race.status == 'started' && $race.elapsedMs < 100 && ref?.focus();
 </script>
 
 {#if $race.status == 'countdown'}
@@ -154,9 +152,8 @@
 		class="card p-4"
 		placeholder=""
 		bind:this={ref}
-	
 		on:keyup={(event) => $race.updateLogic(event)}
-		disabled={$race.status!="started"}
+		disabled={$race.status != 'started'}
 	/>
 
 	<ResultChart />

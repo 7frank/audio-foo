@@ -41,7 +41,7 @@
 			<img src={github} alt="GitHub" />
 		</a> -->
 
-		<AuthN></AuthN>
+		<AuthN />
 	</div>
 </header>
 

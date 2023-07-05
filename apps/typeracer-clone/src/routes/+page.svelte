@@ -19,7 +19,6 @@
 <Bg src={bgImage} />
 <AudioPlayer src={bgAudioSources} />
 <section>
-
 	<div class="welcome" style="height:250px">
 		<picture>
 			<source srcset={welcome} type="image/webp" />

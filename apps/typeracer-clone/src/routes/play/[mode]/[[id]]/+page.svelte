@@ -5,10 +5,8 @@
 	import Bg from '../../../../components/Bg.svelte';
 	import TypeRazor from '../../../../facets/TypeRazor/TypeRazor.svelte';
 
-	 /** @type {import('./$types').PageData} */
-	 export let data;
-   
-
+	/** @type {import('./$types').PageData} */
+	export let data;
 
 	const bgAudioSources = [
 		'https://www.fesliyanstudios.com/musicfiles/2020-03-22_-_8_Bit_Surf_-_FesliyanStudios.com_-_David_Renda/2020-03-22_-_8_Bit_Surf_-_FesliyanStudios.com_-_David_Renda.mp3',
@@ -28,8 +26,6 @@
 <Bg />
 <AudioPlayer src={bgAudioSources} />
 <section>
-
-
 	<div id="shadowBox">
 		<h1 class="rainbow rainbow_text_animated">{data.YAY}</h1>
 	</div>
@@ -47,40 +43,39 @@
 	}
 
 	#shadowBox {
-    background-color: rgb(0, 0, 0);
-    /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.2);
-    /* Black w/opacity/see-through */
-    border: 3px solid;
-	margin:1em;
-	padding:1em;
-}
+		background-color: rgb(0, 0, 0);
+		/* Fallback color */
+		background-color: rgba(0, 0, 0, 0.2);
+		/* Black w/opacity/see-through */
+		border: 3px solid;
+		margin: 1em;
+		padding: 1em;
+	}
 
-.rainbow {
-    text-align: center;
-    text-decoration: underline;
-    font-size: 32px;
-    font-family: monospace;
-    letter-spacing: 5px;
-}
-.rainbow_text_animated {
-    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: rainbow_animation 6s ease-in-out infinite;
-    background-size: 400% 100%;
-}
+	.rainbow {
+		text-align: center;
+		text-decoration: underline;
+		font-size: 32px;
+		font-family: monospace;
+		letter-spacing: 5px;
+	}
+	.rainbow_text_animated {
+		background: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		animation: rainbow_animation 6s ease-in-out infinite;
+		background-size: 400% 100%;
+	}
 
-@keyframes rainbow_animation {
-    0%,100% {
-        background-position: 0 0;
-    }
+	@keyframes rainbow_animation {
+		0%,
+		100% {
+			background-position: 0 0;
+		}
 
-    50% {
-        background-position: 100% 0;
-    }
-}
-
-
+		50% {
+			background-position: 100% 0;
+		}
+	}
 </style>

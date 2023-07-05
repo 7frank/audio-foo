@@ -23,7 +23,11 @@
 					<td>{entry._id}</td>
 					<td>{entry.author}</td>
 					<td>{entry.wpm}</td>
-					<td><a href="#id" on:click={()=> window.location.href=`/play/id/${entry._id}`} >Try Again</a></td>
+					<td
+						><a href="#id" on:click={() => (window.location.href = `/play/id/${entry._id}`)}
+							>Try Again</a
+						></td
+					>
 				</tr>
 			{/each}
 		</tbody>
@@ -52,7 +56,11 @@
 					<td>{entry.word}</td>
 					<td>{entry.severity}</td>
 					<td>{entry.createdAt ? new Date(entry.createdAt).toISOString() : ''}</td>
-					<td><a href="#weak-words" on:click={()=> window.location.href=`/play/weak-words`}>train words</a></td>
+					<td
+						><a href="#weak-words" on:click={() => (window.location.href = `/play/weak-words`)}
+							>train words</a
+						></td
+					>
 				</tr>
 			{/each}
 		</tbody>
