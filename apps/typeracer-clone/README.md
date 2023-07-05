@@ -1,18 +1,23 @@
-# create-svelte
+# TypeRacer clone
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+... with some additional features
 
-## Creating a project
+## deployment
 
-If you're seeing this, you've probably already done this step. Congrats!
+### vercel
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- currently we deploy to vercel for simplicity
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### google social login
+
+- also we use google social login. you need to provide some environment variables created from [google credentials api](https://console.cloud.google.com/apis/credentials)
+
+  > PROVIDERS_GOOGLE_CLIENT_ID=
+  > PROVIDERS_GOOGLE_CLIENT_SECRET=
+  > SECRETSECRET=something-random
+
+- there you will have to define the callback URL as well.
+- for local development this is: `http://localhost:5173/auth/callback/google`
 
 ## Developing
 
