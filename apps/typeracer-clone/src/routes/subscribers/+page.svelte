@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/stores';
+	import AudioPlayer from '../../components/AudioPlayer.svelte';
+	import Bg from '../../components/Bg.svelte';
+	import { Avatar } from '@skeletonlabs/skeleton';
 
-	import AudioPlayer from '../../../../components/AudioPlayer.svelte';
-	import Bg from '../../../../components/Bg.svelte';
-	import TypeRazor from '../../../../facets/TypeRazor/TypeRazor.svelte';
 
 	 /** @type {import('./$types').PageData} */
 	 export let data;
@@ -21,20 +21,22 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Subscribers</title>
 	<meta name="description" content="TypeRazor" />
 </svelte:head>
 
 <Bg />
 <AudioPlayer src={bgAudioSources} />
 <section>
-
-
 	<div id="shadowBox">
-		<h1 class="rainbow rainbow_text_animated">{data.YAY}</h1>
+		<h1 class="rainbow rainbow_text_animated">Hey {data.session?.user?.name} ({data.session?.user?.email}), <img src="{data.session?.user?.image}" /> </h1>
+		<h3 class="rainbow rainbow_text_animated">{data.description}</h3>
+		<Avatar
+		border="border-4 border-surface-300-600-token hover:!border-primary-500"
+		cursor="cursor-pointer"
+	/>
 	</div>
-
-	<TypeRazor {mode} {quoteId} />
+	
 </section>
 
 <style>
