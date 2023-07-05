@@ -90,7 +90,6 @@ export class Race {
 	stop(reason: Race['status']) {
 		if (this.status == 'started') {
 			this.endTime = new Date();
-			//if (this.interval) clearInterval(this.interval);
 			this.calculateWPM(this.endTime);
 		}
 
@@ -107,7 +106,9 @@ export class Race {
 	/**
 	 * Trigger this function after userInput changed to update game logic.
 	 */
-	updateLogic() {
+	updateLogic(event: { target: HTMLInputElement }) {
+		this.userInput = event.target.value;
+
 		const {
 			diffPos: _d,
 			isSame,

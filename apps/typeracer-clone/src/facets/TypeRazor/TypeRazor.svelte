@@ -154,8 +154,8 @@
 		class="card p-4"
 		placeholder=""
 		bind:this={ref}
-		bind:value={$race.userInput}
-		on:keyup={() => $race.updateLogic()}
+	
+		on:keyup={(event) => $race.updateLogic(event)}
 		disabled={$race.status!="started"}
 	/>
 

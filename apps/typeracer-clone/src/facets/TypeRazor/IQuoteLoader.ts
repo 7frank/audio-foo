@@ -19,6 +19,19 @@ export class FromIdRandomQuoteLoader implements IQuoteLoader {
 	constructor(private quoteId: string) {}
 
 	async loadQuote(): Promise<Quote> {
+		// sole exception, put in separate loader
+		if (this.quoteId == '-1') {
+			const t =
+				'Mein Freund Christian Masal wurde in die österreichische Eishockeynationalmannschaft berufen. Heute findet eine rhythmische Jugendmesse statt. Wir schreiben nach dem Zehnfinger-System. In einem Vorort von München findet auch heuer wieder ein Sommersprachkurs statt. Manuel nahm auf sein Haus eine Hypothek auf.';
+			return {
+				_id: '-1',
+				tags: [],
+				author: 'https://de4.typewriter.at/index.php?r=typewriter/startPractise&id=259',
+				content: t,
+				length: t.length
+			};
+		}
+
 		const quote = await getQuoteById(this.quoteId);
 		quote.content = quote.content
 			.replace(/\s+/g, ' ') // Replace consecutive whitespace with a single space
