@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import logo from '$lib/images/svelte-logo.svg';
 	import github from '$lib/images/github.svg';
+	import AuthN from '../components/AuthN.svelte';
 </script>
 
 <svelte:head>
@@ -39,6 +40,8 @@
 		<!-- <a href="https://github.com/sveltejs/kit">
 			<img src={github} alt="GitHub" />
 		</a> -->
+
+		<AuthN></AuthN>
 	</div>
 </header>
 
@@ -49,7 +52,7 @@
 	}
 
 	.corner {
-		width: 3em;
+		min-width: 3em;
 		height: 3em;
 	}
 

@@ -17,5 +17,15 @@
   "license": "ISC",
   "devDependencies": {
     "turbo": "^1.10.2"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@pixi/utils"
+      ],
+      "allowedVersions": {
+        "svelte": "^4"
+      }
+    }
   }
 }
